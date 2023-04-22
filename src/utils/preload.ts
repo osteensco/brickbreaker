@@ -1,10 +1,32 @@
 // this script allows the usage of nodejs and electron specific modules and libraries without typical security vulnerabilities
-import { IpcRenderer, contextBridge } from "electron";
+import { ipcRenderer, contextBridge } from "electron";
 
-const mockAPI = {
+
+
+const test = {
     stuff: "here's some stuff"//this could be functions, classes, react components probably, etc
 };
 
-contextBridge.exposeInMainWorld("apiName", mockAPI);
+const gameLoop = {
+    init: (message: any) => {
+        if (message.myTypeField === 'start-game') {
+          ipcRenderer.send('start-game-loop', message);
+        }
+      }
+};
+
+// const gameloop = ??????
+
+
+
+
+
+
+
+
+contextBridge.exposeInMainWorld("API", {
+    test,
+    gameLoop,
+});
 
 

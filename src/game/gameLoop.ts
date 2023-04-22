@@ -6,7 +6,7 @@ export function gameLoop(mainWindow: BrowserWindow): void {
     // Initialize game state
     let gameState: Object;
 
-    ipcMain.on("start-game-loop", (event, arg) => {
+    ipcMain.on("start-game-loop", (event) => {
         function loop() {
             // Update game state
             

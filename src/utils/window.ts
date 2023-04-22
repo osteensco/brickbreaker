@@ -16,7 +16,9 @@ export function createWindow (): void {
         width: 800, height: 600,
         autoHideMenuBar: true,
         webPreferences: {
-            preload: __dirname + "/preload.js"
+            preload: __dirname + "/preload.js",
+            contextIsolation: true,
+            nodeIntegration: false
         },
         show: false
     });
@@ -38,7 +40,7 @@ export function createWindow (): void {
         getSize.call(mainWindow);
     })
 
-    gameLoop(mainWindow)
+    gameLoop(mainWindow);
 }
 
 
