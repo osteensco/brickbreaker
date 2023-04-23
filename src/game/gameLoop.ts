@@ -34,9 +34,6 @@ function gameLoop(mainWindow: BrowserWindow): void {
 
             // ipcRenderer.send("update-game", /* game state */);
 
-            // Request next frame
-            // requestAnimationFrame(loop);
-
 }
 
 export function initGameLoop(window: BrowserWindow): void {

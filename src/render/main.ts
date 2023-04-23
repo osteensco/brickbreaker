@@ -18,8 +18,8 @@ console.log("render success");
 // @ts-expect-error
 console.log(API.test.stuff);
 
-
-// API.game.init({})
+// @ts-expect-error
+API.game.init()
 
 //passing an object then checking obj.value in preload is supposed to be a security best practice?
 //need to understand this portion better.

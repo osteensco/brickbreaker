@@ -17,9 +17,9 @@ const game = {
     //     // gameLoop()
     //     // console.log('gameLoop running')
     // },
-    // init: () => {
-        
-    // },
+    init: () => {
+        ipcRenderer.send("game-start")
+    },
     canvas: document.getElementById('gameCanvas'),
    
 };

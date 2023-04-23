@@ -1,7 +1,7 @@
 import { app, ipcMain } from "electron";
 import { createWindow } from "./utils/window";
 import { initGameLoop } from "./game/gameLoop";
-
+import { defaultState, currentState } from "./game/gameState";
 
 
 
@@ -15,8 +15,21 @@ app.on("ready", () => {
         mainWindow.webContents.openDevTools();
       }
 
-    initGameLoop(mainWindow);
     
+    mainWindow.webContents.send("game-start")
+
+    
+    ipcMain.on("game-start", () => {
+        initGameLoop(mainWindow);
+        // currentState = defaultState
+    });
+    // ipcMain.on("game-update", currentState)
+
+    
+    
+
+
+
 });
 
 
