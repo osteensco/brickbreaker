@@ -1,16 +1,15 @@
 import { BrowserWindow, ipcMain } from "electron";
+// import { mainWindow } from "../utils/window";
 
 
 
-export function gameLoop(mainWindow: BrowserWindow): void {
+function gameLoop(mainWindow: BrowserWindow): void {
     // Initialize game state
-    let gameState: Object;
+    // let gameState: Object;
 
-    ipcMain.on("start-game-loop", (event) => {
-        function loop() {
             // Update game state
             
-            console.log("Loop running");
+    console.log("Loop running");
             // gameState = {
             //     player: {
             //       x: 10,
@@ -33,15 +32,18 @@ export function gameLoop(mainWindow: BrowserWindow): void {
             //   };
               
 
-            mainWindow.webContents.send("update-game", /* game state */);
+            // ipcRenderer.send("update-game", /* game state */);
 
             // Request next frame
-            requestAnimationFrame(loop);
-        }
+            // requestAnimationFrame(loop);
 
-        // Start game loop
-        requestAnimationFrame(loop);
-    });
+}
+
+export function initGameLoop(window: BrowserWindow): void {
+    // ipcMain.on('start-new-game')
+    setInterval(() => {
+        gameLoop(window);
+      }, 16.7); // run game loop at 60 fps
 }
 
 

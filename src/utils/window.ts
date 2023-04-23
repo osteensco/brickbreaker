@@ -1,5 +1,5 @@
 import { BrowserWindow } from "electron";
-import { gameLoop } from "../game/gameLoop";
+// import { gameLoop } from "../game/gameLoop";
 
 
 export let mainWindow: BrowserWindow;
@@ -11,9 +11,9 @@ export let winHeight: number;
 
 
 
-export function createWindow (): void {
+export function createWindow (): BrowserWindow {
     mainWindow = new BrowserWindow({
-        width: 800, height: 600,
+        width: 1000, height: 700,
         autoHideMenuBar: true,
         webPreferences: {
             preload: __dirname + "/preload.js",
@@ -40,7 +40,7 @@ export function createWindow (): void {
         getSize.call(mainWindow);
     })
 
-    gameLoop(mainWindow);
+    return mainWindow
 }
 
 
