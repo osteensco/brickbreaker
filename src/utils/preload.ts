@@ -1,5 +1,6 @@
 // this script allows the usage of nodejs and electron specific modules 
-// and libraries without typical security vulnerabilities
+// and libraries without typical security vulnerabilities caused by
+// exposing node processes to the internet
 import { ipcRenderer, contextBridge } from "electron";
 
 
@@ -25,12 +26,18 @@ const game = {
 };
 
 
+const listeners = {
+    onWindowSize: (callback: (winSize: any) => void) => {
+        ipcRenderer.on("window-size", (_event, winSize) => callback(winSize));
+      }
+};
 
 
 
 contextBridge.exposeInMainWorld("API", {
     test,
     game,
+    listeners,
 });
 
 

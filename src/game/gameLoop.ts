@@ -9,7 +9,7 @@ function gameLoop(mainWindow: BrowserWindow): void {
 
             // Update game state
             
-    console.log("Loop running");
+    // console.log("Loop running");
             // gameState = {
             //     player: {
             //       x: 10,

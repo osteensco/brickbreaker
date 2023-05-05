@@ -1,4 +1,7 @@
-// import { ipcRenderer } from "electron";
+
+
+
+// renderer process
 
 
 
@@ -19,12 +22,13 @@ console.log("render success");
 console.log(API.test.stuff);
 
 // @ts-expect-error
+API.listeners.onWindowSize((winSize) => {
+  console.log(`Window size: ${winSize.width}x${winSize.height}`);
+});
+// @ts-expect-error
 API.game.init()
 
-//passing an object then checking obj.value in preload is supposed to be a security best practice?
-//need to understand this portion better.
-// -perhaps this is mainly to allow for listeners to be imported to the renderer?
-    // for example, a button click sends the proper event message which would trigger the gameLoop.init() method
+
 
 
 

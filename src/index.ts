@@ -4,7 +4,7 @@ import { initGameLoop } from "./game/gameLoop";
 import { defaultState, currentState } from "./game/gameState";
 
 
-
+// main process
 
 const isDev = process.env.NODE_ENV !== 'production';
 
@@ -15,8 +15,6 @@ app.on("ready", () => {
         mainWindow.webContents.openDevTools();
       }
 
-    
-    mainWindow.webContents.send("game-start")
 
     
     ipcMain.on("game-start", () => {
