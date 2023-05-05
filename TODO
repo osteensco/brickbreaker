@@ -1,0 +1,21 @@
+Build out object styles
+    -bricks
+    -balls
+    -paddles
+    -drops
+
+Set up rendering of objects
+    -can I do this without react?
+    -GameState
+        -figure out what needs to go in here
+        -set up IPC messaging
+        -assuming location data here should be passed to renderer to actually render objects on screen
+
+
+Build start menu
+
+Set up cached/saved settings capability
+
+
+
+
