@@ -4,7 +4,7 @@
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "webpack --config ./webpack.config.ts",
     "start": "npm run build && electron ."
   },
   "keywords": [],
@@ -13,5 +13,11 @@
   "dependencies": {
     "electron": "^23.2.0",
     "typescript": "^5.0.2"
+  },
+  "devDependencies": {
+    "ts-loader": "^9.4.2",
+    "ts-node": "^10.9.1",
+    "webpack": "^5.82.0",
+    "webpack-cli": "^5.1.0"
   }
 }

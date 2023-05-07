@@ -22,14 +22,15 @@ export function createWindow (): BrowserWindow {
 
     
     mainWindow.loadFile("./index.html");
-    mainWindow.once("ready-to-show", () => mainWindow.show())
-    mainWindow.focus()
+    mainWindow.once("ready-to-show", () => mainWindow.show());
+    mainWindow.focus();
+
 
     mainWindow.on("resized", () => {
         const [width, height] = mainWindow.getSize();
         const winSize = { width, height };
         mainWindow.webContents.send("window-size", winSize);
-    })
+    });
        
 
     return mainWindow

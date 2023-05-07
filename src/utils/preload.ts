@@ -2,15 +2,23 @@
 // and libraries without typical security vulnerabilities caused by
 // exposing node processes to the internet
 import { ipcRenderer, contextBridge } from "electron";
+import { createElement, cleanup } from "./helpers";
+import { mainMenu } from "../menu/mainMenu";
 
 
 
 
 
 
-const test = {
-    stuff: "here's some stuff"//this could be functions, classes, react components probably, etc
-};
+
+
+
+// const menu = {
+//     load: () => {
+//         console.log('menu load method called')
+//         new mainMenu()
+//     } 
+// };
 
 
 const game = {
@@ -18,15 +26,19 @@ const game = {
     //     // gameLoop()
     //     // console.log('gameLoop running')
     // },
-    init: () => {
-        ipcRenderer.send("game-start")
-    },
+    // init: () => {
+    //     ipcRenderer.send("game-start")
+    // },
     canvas: document.getElementById('gameCanvas'),
    
 };
 
 
 const listeners = {
+    onStart: (callback: () => void) => {
+        callback();
+        ipcRenderer.on("app-start", (_event) => callback());
+    },
     onWindowSize: (callback: (winSize: any) => void) => {
         ipcRenderer.on("window-size", (_event, winSize) => callback(winSize));
       }
@@ -35,7 +47,7 @@ const listeners = {
 
 
 contextBridge.exposeInMainWorld("API", {
-    test,
+    // menu,
     game,
     listeners,
 });

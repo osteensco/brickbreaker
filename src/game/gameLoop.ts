@@ -37,7 +37,7 @@ function gameLoop(mainWindow: BrowserWindow): void {
 }
 
 export function initGameLoop(window: BrowserWindow): void {
-    // ipcMain.on('start-new-game')
+
     setInterval(() => {
         gameLoop(window);
       }, 16.7); // run game loop at 60 fps

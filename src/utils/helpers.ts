@@ -1,9 +1,11 @@
 //helper functions
-export function randomNumberBetween(min: number, max: number) {
+export function randomNumberBetween(min: number, max: number): number {
     return Math.random() * (max - min) + min
 }
 
-export function createElement(type: string = "div", className: string, id?: string, parentSelector?: string) {
+
+
+export function createElement(type: string, className: string, id?: string, parentSelector?: string): HTMLElement {
     let elem = document.createElement(type)
     elem.classList.add(className)
     if (id) {
@@ -19,9 +21,12 @@ export function createElement(type: string = "div", className: string, id?: stri
     }
     document.body.appendChild(elem)
 
+    return elem
 }
 
-export function cleanup(className?: string, id?: string) {
+
+
+export function cleanup(className?: string, id?: string): void {
 
     let selector = ''
     if (id) {
@@ -38,5 +43,8 @@ export function cleanup(className?: string, id?: string) {
     }
 
 }
+
+
+
 
 
