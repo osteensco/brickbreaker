@@ -7,6 +7,7 @@ const config: Configuration = {
     renderer: './src/render/main.ts',
     preload: './src/utils/preload.ts',
   },
+  target: "electron-main",
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
@@ -25,7 +26,10 @@ const config: Configuration = {
     fallback: {
       "fs": false,
       "path": false
-  }
+    },
+    alias: {
+      electron: path.resolve(__dirname, "node_modules/electron"),
+    },
   },
   mode: 'development',
 };

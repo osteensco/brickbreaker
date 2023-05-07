@@ -6,7 +6,9 @@ import { mainMenu } from "../menu/mainMenu";
 
 
 
-
+let test = document.createElement('a')
+test.appendChild(document.createTextNode('works here for some reason'))
+document.body.appendChild(test)
 const menu = new mainMenu()
 console.log("render success");
 
@@ -28,8 +30,6 @@ API.listeners.onStart(() => {
 
 // @ts-expect-error
 API.menu.load()
-
-
 
 
 

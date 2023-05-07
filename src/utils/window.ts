@@ -1,5 +1,5 @@
 import { BrowserWindow } from "electron";
-
+import { join } from "path";
 
 
 
@@ -13,7 +13,7 @@ export function createWindow (): BrowserWindow {
         width: 1000, height: 700,
         autoHideMenuBar: true,
         webPreferences: {
-            preload: __dirname + "/preload.js",
+            preload: join(__dirname, "/preload.js"),
             contextIsolation: true,
             nodeIntegration: false
         },
