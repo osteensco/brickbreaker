@@ -2,7 +2,6 @@
 // and libraries without typical security vulnerabilities caused by
 // exposing node processes to the internet
 import { ipcRenderer, contextBridge } from "electron";
-import { createElement, cleanup } from "./helpers";
 import { mainMenu } from "../menu/mainMenu";
 
 
@@ -13,12 +12,11 @@ import { mainMenu } from "../menu/mainMenu";
 
 
 
-// const menu = {
-//     load: () => {
-//         console.log('menu load method called')
-//         new mainMenu()
-//     } 
-// };
+const menu = {
+    load: () => {
+        new mainMenu()
+    } 
+};
 
 
 const game = {
@@ -47,7 +45,7 @@ const listeners = {
 
 
 contextBridge.exposeInMainWorld("API", {
-    // menu,
+    menu,
     game,
     listeners,
 });

@@ -32,6 +32,7 @@ const config: Configuration = {
     },
   },
   mode: 'development',
+  devtool: 'cheap-module-source-map'
 };
 
 export default config;

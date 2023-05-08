@@ -10,7 +10,7 @@ const isDev = process.env.NODE_ENV !== 'production';
 
 app.on("ready", () => {
     const mainWindow = createWindow();
-    console.log("sdjfsd");
+    
     mainWindow.webContents.send("app-start");
     
     if (isDev) {
