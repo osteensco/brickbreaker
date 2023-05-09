@@ -12,14 +12,15 @@ export function createElement(type: string, className: string, id?: string, pare
         elem.setAttribute("id", id);
       }
     if (parentSelector) {
-    const parent = document.querySelector(parentSelector);
+        const parent = document.querySelector(parentSelector);
         if (parent) {
             parent.appendChild(elem);
         } else {
             console.error(`Parent element with selector '${parentSelector}' not found.`);
         }
-    }
-    document.body.appendChild(elem)
+    } else {
+        document.body.appendChild(elem);
+      }
 
     return elem
 }

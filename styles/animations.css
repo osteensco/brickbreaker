@@ -39,3 +39,14 @@
 
 
 
+
+
+
+.button:hover {
+    text-indent: .2rem;
+    letter-spacing: .2rem;
+    color: var(--colorchnge);
+    border-radius: 5px;
+    box-shadow: 0 0 40px var(--colorchnge);
+}
+

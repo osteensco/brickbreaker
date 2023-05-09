@@ -3,13 +3,18 @@ import { ipcRenderer } from "electron";
 
 
 export class mainMenu {
+    private container: HTMLElement;
+    private selectorString: string;
     private title: HTMLElement;
     private newGame: HTMLElement;
     private scores: HTMLElement;
     private settings: HTMLElement;
 
     constructor() {
-        this.title = this.createTitle()
+        console.log('main menu load')
+        this.container = createElement('div', 'menu');
+        this.selectorString = '.menu'
+        this.title = this.createTitle();
         this.newGame = this.createButton('start-game', 'New Game', this.startGame);
         this.scores = this.createButton('nav-scores', 'High Scores', this.navScores);
         this.settings = this.createButton('nav-settings', 'Settings', this.navSettings);
@@ -18,7 +23,7 @@ export class mainMenu {
 
 
     private createButton(id: string, text: string, action: () => void): HTMLElement {
-        let button = createElement('a', 'button', id);
+        let button = createElement('a', 'button', id, this.selectorString);
         button.setAttribute('href', '#');
         button.addEventListener("click", () => {
             action()
@@ -31,7 +36,7 @@ export class mainMenu {
 
 
     private createTitle(): HTMLElement {
-        let title = createElement('h1','title');
+        let title = createElement('h1','title', 'title', this.selectorString);
         title.appendChild(document.createTextNode('BRICK BREAKER!'))
         return title
     }
@@ -57,8 +62,7 @@ export class mainMenu {
 
 
     private cleanup(): void {
-        cleanup('button')
-        cleanup('title')
+        cleanup('menu')
     }
 
     //TODO
