@@ -1,0 +1,41 @@
+
+
+
+@keyframes color-cycle {
+    0% {
+      color: green;
+    }
+    10% {
+        color: lightblue;
+      }
+    20% {
+        color: blue;
+    }
+    30% {
+        color: purple;
+    }
+    40% {
+        color: violet;
+    }
+    50% {
+        color: red;
+    }
+    60% {
+        color: orangered;
+    }
+    70% {
+        color: orange;
+    }
+    80% {
+        color: yellow;
+    }
+    90% {
+        color: yellowgreen;
+    }
+    100% {
+        color: green;
+    }
+}
+
+
+

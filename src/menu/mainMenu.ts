@@ -1,17 +1,18 @@
-import { createElement } from "../utils/helpers";
+import { createElement, cleanup } from "../utils/helpers";
 import { ipcRenderer } from "electron";
 
 
 export class mainMenu {
+    private title: HTMLElement;
     private newGame: HTMLElement;
     private scores: HTMLElement;
     private settings: HTMLElement;
 
     constructor() {
-        console.log('mainMenu obj created')
-        this.newGame = this.createButton('start-game', 'New Game', this.startGame.bind(this));
-        this.scores = this.createButton('nav-scores', 'High Scores', this.navScores.bind(this));
-        this.settings = this.createButton('nav-settings', 'Settings', this.navSettings.bind(this));
+        this.title = this.createTitle()
+        this.newGame = this.createButton('start-game', 'New Game', this.startGame);
+        this.scores = this.createButton('nav-scores', 'High Scores', this.navScores);
+        this.settings = this.createButton('nav-settings', 'Settings', this.navSettings);
     }
 
 
@@ -19,9 +20,20 @@ export class mainMenu {
     private createButton(id: string, text: string, action: () => void): HTMLElement {
         let button = createElement('a', 'button', id);
         button.setAttribute('href', '#');
-        button.addEventListener("click", action)
+        button.addEventListener("click", () => {
+            action()
+            this.cleanup()
+        });
         button.appendChild(document.createTextNode(text));
         return button
+    }
+
+
+
+    private createTitle(): HTMLElement {
+        let title = createElement('h1','title');
+        title.appendChild(document.createTextNode('BRICK BREAKER!'))
+        return title
     }
 
 
@@ -41,6 +53,13 @@ export class mainMenu {
     private navSettings(): void {
         return
     }    
+
+
+
+    private cleanup(): void {
+        cleanup('button')
+        cleanup('title')
+    }
 
     //TODO
         //write function for each button's action
