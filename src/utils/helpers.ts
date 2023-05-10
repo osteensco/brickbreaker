@@ -5,7 +5,7 @@ export function randomNumberBetween(min: number, max: number): number {
 
 
 
-export function createElement(type: string, className: string, id?: string, parentSelector?: string): HTMLElement {
+export function createElement(type: string, className: string, id?: string, parentSelector?: string): HTMLElement | HTMLCanvasElement {
     let elem = document.createElement(type)
     elem.classList.add(className)
     if (id) {

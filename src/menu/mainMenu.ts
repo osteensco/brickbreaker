@@ -11,7 +11,7 @@ export class mainMenu {
     private settings: HTMLElement;
 
     constructor() {
-        console.log('main menu load')
+        // console.log('main menu load')
         this.container = createElement('div', 'menu');
         this.selectorString = '.menu'
         this.title = this.createTitle();

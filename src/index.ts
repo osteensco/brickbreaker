@@ -11,13 +11,18 @@ const isDev = process.env.NODE_ENV !== 'production';
 app.on("ready", () => {
     const mainWindow = createWindow();
     
-    mainWindow.webContents.send("app-start");
+    
     
     if (isDev) {
         mainWindow.webContents.openDevTools();
       }
     
     
+    ipcMain.on("renderer-load", () => {
+        mainWindow.webContents.send("app-start");
+    });
+
+
     
     ipcMain.on("game-start", () => {
 

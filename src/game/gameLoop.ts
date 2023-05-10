@@ -36,10 +36,10 @@ function gameLoop(mainWindow: BrowserWindow): void {
 
 }
 
-export function initGameLoop(window: BrowserWindow): void {
-
+export function initGameLoop(mainWindow: BrowserWindow): void {
+    mainWindow.webContents.send("game-load");
     setInterval(() => {
-        gameLoop(window);
+        gameLoop(mainWindow);
       }, 16.7); // run game loop at 60 fps
 }
 
