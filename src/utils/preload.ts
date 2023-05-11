@@ -4,13 +4,13 @@
 import { ipcRenderer, contextBridge } from "electron";
 import { mainMenu } from "../menu/mainMenu";
 import { createElement } from "./helpers";
+import { Brick } from "../objs/bricks";
+import { Paddle } from "../objs/paddles";
 
 
 
 
-
-
-
+ 
 
 const menu = {
     load: () => {
@@ -20,27 +20,25 @@ const menu = {
 
 
 const game = {
-    // loop: () => { 
-    //     // gameLoop()
-    //     // console.log('gameLoop running')
-    // },
-    test: () => {
-        
+
+    load: () => {
+        // canvas does not seem to Work, need to try creating actual DOM objects and manipulating with css
         const canvas = createElement('canvas', 'game-canvas', 'game-canvas') as HTMLCanvasElement;
-        const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
     
-        // Set the canvas size
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    
-        // Set the square fill color
-        ctx.fillStyle = "red";
-    
-        // Draw the square
-        ctx.fillRect(50, 50, 10, 10);
-        
-        // createElement('div', 'block', 'block-1', '.game-canvas#game-canvas');
     },
+
+    spawnPaddle: () => {
+        return new Paddle(100,200, 25, 7, 2)
+    },
+
+    player: new Paddle(100,200, 25, 7, 2),
+
+    // draw: (ctx: CanvasRenderingContext2D) => {
+    //     console.log(ctx)
+    //     player.draw(ctx);
+    // },
    
 };
 
@@ -54,7 +52,7 @@ const listeners = {
         ipcRenderer.on("window-size", (_event, winSize) => callback(winSize));
       },
     onGameLoad: (callback: () => void) => {
-        ipcRenderer.on("game-load", (_event) => callback());
+        ipcRenderer.on("game-load", (_event, ) => callback());
     },
 };
 

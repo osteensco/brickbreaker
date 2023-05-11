@@ -1,5 +1,5 @@
 import { BrowserWindow, ipcMain } from "electron";
-// import { mainWindow } from "../utils/window";
+import { Paddle } from "../objs/paddles";
 
 
 
@@ -30,14 +30,21 @@ function gameLoop(mainWindow: BrowserWindow): void {
             //       }
             //     ]
             //   };
-              
+            // return gameState
 
             // ipcRenderer.send("update-game", /* game state */);
 
 }
 
 export function initGameLoop(mainWindow: BrowserWindow): void {
+    
+
+    // let gameState = defaultGameState;
+
+   
     mainWindow.webContents.send("game-load");
+
+
     setInterval(() => {
         gameLoop(mainWindow);
       }, 16.7); // run game loop at 60 fps
