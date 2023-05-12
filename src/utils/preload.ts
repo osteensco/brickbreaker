@@ -10,7 +10,12 @@ import { Paddle } from "../objs/paddles";
 
 
 
- 
+let player: Paddle
+
+
+
+
+
 
 const menu = {
     load: () => {
@@ -22,7 +27,7 @@ const menu = {
 const game = {
 
     load: () => {
-        // canvas does not seem to Work, need to try creating actual DOM objects and manipulating with css
+        // game logic should reside in a game object
         const canvas = createElement('canvas', 'game-canvas', 'game-canvas') as HTMLCanvasElement;
         canvas.width = window.innerWidth
         canvas.height = window.innerHeight
@@ -30,15 +35,14 @@ const game = {
     },
 
     spawnPaddle: () => {
-        return new Paddle(100,200, 25, 7, 2)
+        player = new Paddle(100,200, 25, 7, 2)
     },
 
-    player: new Paddle(100,200, 25, 7, 2),
+    draw: () => {
+        player.draw()
+    }
 
-    // draw: (ctx: CanvasRenderingContext2D) => {
-    //     console.log(ctx)
-    //     player.draw(ctx);
-    // },
+
    
 };
 
