@@ -1,5 +1,6 @@
 import { ipcRenderer } from "electron";
 import { Paddle } from "../objs/paddles";
+import { Ball } from "../objs/balls";
 
 
 
@@ -7,7 +8,7 @@ import { Paddle } from "../objs/paddles";
 
 
 
-function gameLoop(ctx: CanvasRenderingContext2D, gameObjects: any): void {
+function gameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, gameObjects: any): void {
 
 
 
@@ -42,21 +43,17 @@ function gameLoop(ctx: CanvasRenderingContext2D, gameObjects: any): void {
 
 }
 
-export function initGameLoop(ctx: CanvasRenderingContext2D): void {
+export function initGameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, gameObjects: any): void {
     
     
     
-    // let gameState = defaultGameState;
-    let objects = {
-        player: new Paddle(100,200, 25, 7, 2),
 
-    }
    
     
 
 
     setInterval(() => {
-        gameLoop(ctx, objects);
+        gameLoop(canvas, ctx, gameObjects);
       }, 16.7); // run game loop at 60 fps
 }
 

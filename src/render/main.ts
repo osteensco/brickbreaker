@@ -11,6 +11,8 @@ console.log("renderer script loaded");
 APP.rendererSend.loaded()
 // @ts-expect-error
 APP.listeners.onWindowSize((winSize) => {
+    // @ts-expect-error
+    APP.game.windowResize();
 	console.log(`Window size: ${winSize.width}x${winSize.height}`);
 });
 // @ts-expect-error

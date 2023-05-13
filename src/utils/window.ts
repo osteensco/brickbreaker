@@ -31,6 +31,12 @@ export function createWindow (): BrowserWindow {
         const winSize = { width, height };
         mainWindow.webContents.send("window-size", winSize);
     });
+
+    mainWindow.on("resize", () => {
+        const [width, height] = mainWindow.getSize();
+        const winSize = { width, height };
+        mainWindow.webContents.send("window-size", winSize);
+    });
        
 
     return mainWindow

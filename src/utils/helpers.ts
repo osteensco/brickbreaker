@@ -68,5 +68,10 @@ export function getCanvasContext(): CanvasRenderingContext2D {
 
 
 
+export function updateSize(canvas: HTMLCanvasElement): void {
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+}
+
 
 

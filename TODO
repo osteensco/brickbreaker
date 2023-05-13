@@ -1,21 +1,21 @@
-Build out object styles
-    -bricks
-    -balls
-    -paddles
-    -drops
-
-Set up rendering of objects
-    -can I do this without react?
-    -GameState
-        -figure out what needs to go in here
-        -set up IPC messaging
-        -assuming location data here should be passed to renderer to actually render objects on screen
+Build out game loop
 
 
-Build start menu
+Set up dynamic sizes
+
+
+Develop level generation algorithm for random levels and set designs for set levels
+    -Infinite scaling:
+        -levels are a grid system, 0 or 1 values for a block placed or not placed
+        -a value > 0 acts as block's hp, block looses 1 hp per ball hit
+        -for each iteration of a level group these values can be +1
+
+Build other menu components
+    -high scores
+    -settings
 
 Set up cached/saved settings capability
-
+    -explore data persistancy options
 
 
 

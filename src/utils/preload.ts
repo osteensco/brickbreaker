@@ -4,8 +4,8 @@
 import { ipcRenderer, contextBridge } from "electron";
 import { mainMenu } from "../menu/mainMenu";
 import { initGameLoop } from "../game/gameLoop";
-import { createCanvas, getCanvasContext } from "./helpers";
-
+import { createCanvas, getCanvasContext, updateSize } from "./helpers";
+import { Paddle } from "../objs/paddles";
 
 
 // renderer process
@@ -15,12 +15,12 @@ import { createCanvas, getCanvasContext } from "./helpers";
 let ctx: CanvasRenderingContext2D
 let main: mainMenu
 let canvas: HTMLCanvasElement
-
+let objects: any
 
 
 const menu = {
     load: () => {
-        main = new mainMenu()
+        main = new mainMenu();
     } 
 };
 
@@ -28,33 +28,32 @@ const menu = {
 const game = {
 
     init: () => {
-        initGameLoop(ctx);
+            // let gameState = defaultGameState;
+        objects = {
+            player: new Paddle(canvas, ctx),
+            // balls: {
+            //     1: new Ball(player.x, )
+            // },
+        };
+        initGameLoop(canvas, ctx, objects);
     },
 
     loadCanvas: () => {
         
-        canvas = createCanvas()
-        ctx = getCanvasContext()
+        canvas = createCanvas();
+        ctx = getCanvasContext();
         
     },
 
-    // spawnPaddle: () => {
-    //     player = new Paddle(100,200, 25, 7, 2)
-    //     console.log('paddle spawned')
-    // },
-
-    // draw: () => {
-    //     return
-    // }
-
-
+    windowResize: () => {
+        updateSize(canvas);
+    }
    
 };
 
 
 const listeners = {
     onStart: (callback: () => void) => {
-        // callback();
         ipcRenderer.on("app-start", (_event) => callback());
     },
     onWindowSize: (callback: (winSize: any) => void) => {
@@ -67,7 +66,7 @@ const listeners = {
 
 const rendererSend = {
     loaded: () => {
-        ipcRenderer.send("renderer-load")
+        ipcRenderer.send("renderer-load");
     }
 }
 
