@@ -2,7 +2,7 @@ import { BrowserWindow } from "electron";
 import { join } from "path";
 
 
-
+// main process
 
 
 

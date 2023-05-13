@@ -1,3 +1,10 @@
+
+
+
+// renderer process
+
+
+
 export class Drop {
     private _x: number;
     private _y: number;

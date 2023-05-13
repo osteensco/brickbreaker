@@ -1,14 +1,21 @@
-import { BrowserWindow, ipcMain } from "electron";
+import { ipcRenderer } from "electron";
 import { Paddle } from "../objs/paddles";
 
 
 
-function gameLoop(mainWindow: BrowserWindow): void {
-    // Initialize game state
-    // let gameState: Object;
+// renderer process
 
-            // Update game state
-            
+
+
+function gameLoop(ctx: CanvasRenderingContext2D, gameObjects: any): void {
+
+
+
+
+    // display all game objects on the screen with updated gameState data
+    for (const objName in gameObjects) {
+        gameObjects[objName].draw(ctx);
+    }
     console.log("Loop running");
             // gameState = {
             //     player: {
@@ -30,23 +37,26 @@ function gameLoop(mainWindow: BrowserWindow): void {
             //       }
             //     ]
             //   };
-            // return gameState
-
             // ipcRenderer.send("update-game", /* game state */);
+            
 
 }
 
-export function initGameLoop(mainWindow: BrowserWindow): void {
+export function initGameLoop(ctx: CanvasRenderingContext2D): void {
     
-
+    
+    
     // let gameState = defaultGameState;
+    let objects = {
+        player: new Paddle(100,200, 25, 7, 2),
 
+    }
    
-    mainWindow.webContents.send("game-load");
+    
 
 
     setInterval(() => {
-        gameLoop(mainWindow);
+        gameLoop(ctx, objects);
       }, 16.7); // run game loop at 60 fps
 }
 

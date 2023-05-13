@@ -1,10 +1,15 @@
 import { app, ipcMain } from "electron";
 import { createWindow } from "./utils/window";
-import { initGameLoop } from "./game/gameLoop";
-import { defaultState, currentState } from "./game/gameState";
+
+
 
 
 // main process
+
+
+
+
+
 
 const isDev = process.env.NODE_ENV !== 'production';
 
@@ -26,10 +31,10 @@ app.on("ready", () => {
     
     ipcMain.on("game-start", () => {
 
-        initGameLoop(mainWindow);
-        // currentState = defaultState
+        mainWindow.webContents.send("game-load");
+
     });
-    // ipcMain.on("game-update", currentState)
+
 
     
     

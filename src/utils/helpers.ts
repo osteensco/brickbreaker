@@ -1,4 +1,8 @@
+
 //helper functions
+
+
+
 export function randomNumberBetween(min: number, max: number): number {
     return Math.random() * (max - min) + min
 }
@@ -43,6 +47,23 @@ export function cleanup(className?: string, id?: string): void {
         console.log((`At least an id or className has to be provided. ${error}`))
     }
 
+}
+
+
+
+export function createCanvas(): HTMLCanvasElement {
+    const canvas = createElement('canvas', 'game-canvas', 'game-canvas') as HTMLCanvasElement;
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+    return canvas
+}
+
+
+
+export function getCanvasContext(): CanvasRenderingContext2D {
+    const canvas = document.getElementById('game-canvas') as HTMLCanvasElement;
+    const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+    return ctx
 }
 
 

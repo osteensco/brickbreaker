@@ -1,5 +1,11 @@
 import { Ball } from "./balls";
 
+
+
+// renderer process
+
+
+
 export class Paddle {
     public x: number;
     public y: number;
@@ -17,9 +23,8 @@ export class Paddle {
     }
   
     // Draw the paddle on the canvas
-    public draw() {
-		const canvas = document.getElementById('game-canvas') as HTMLCanvasElement;
-		const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+    public draw(ctx: CanvasRenderingContext2D) {
+		// const ctx = getCanvasContext();
 		ctx.fillStyle = "#0095DD";
 		ctx.fillRect(this.x, this.y, this.width, this.height);
     }

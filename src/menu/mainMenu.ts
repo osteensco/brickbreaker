@@ -2,6 +2,11 @@ import { createElement, cleanup } from "../utils/helpers";
 import { ipcRenderer } from "electron";
 
 
+
+// renderer process
+
+
+
 export class mainMenu {
     private container: HTMLElement;
     private selectorString: string;

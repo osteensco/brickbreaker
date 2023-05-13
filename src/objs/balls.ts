@@ -1,5 +1,11 @@
 import { Paddle } from './paddles';
 
+
+
+// renderer process
+
+
+
 export class Ball {
   private _x: number;
   private _y: number;

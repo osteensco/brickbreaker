@@ -1,6 +1,7 @@
 import { Brick } from "../objs/bricks";
 
 
+// renderer process
 
 
 

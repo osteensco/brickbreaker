@@ -3,44 +3,49 @@
 // exposing node processes to the internet
 import { ipcRenderer, contextBridge } from "electron";
 import { mainMenu } from "../menu/mainMenu";
-import { createElement } from "./helpers";
-import { Brick } from "../objs/bricks";
-import { Paddle } from "../objs/paddles";
+import { initGameLoop } from "../game/gameLoop";
+import { createCanvas, getCanvasContext } from "./helpers";
 
 
 
-
-let player: Paddle
-
+// renderer process
 
 
+
+let ctx: CanvasRenderingContext2D
+let main: mainMenu
+let canvas: HTMLCanvasElement
 
 
 
 const menu = {
     load: () => {
-        new mainMenu()
+        main = new mainMenu()
     } 
 };
 
 
 const game = {
 
-    load: () => {
-        // game logic should reside in a game object
-        const canvas = createElement('canvas', 'game-canvas', 'game-canvas') as HTMLCanvasElement;
-        canvas.width = window.innerWidth
-        canvas.height = window.innerHeight
-    
+    init: () => {
+        initGameLoop(ctx);
     },
 
-    spawnPaddle: () => {
-        player = new Paddle(100,200, 25, 7, 2)
+    loadCanvas: () => {
+        
+        canvas = createCanvas()
+        ctx = getCanvasContext()
+        
     },
 
-    draw: () => {
-        player.draw()
-    }
+    // spawnPaddle: () => {
+    //     player = new Paddle(100,200, 25, 7, 2)
+    //     console.log('paddle spawned')
+    // },
+
+    // draw: () => {
+    //     return
+    // }
 
 
    
@@ -66,7 +71,7 @@ const rendererSend = {
     }
 }
 
-contextBridge.exposeInMainWorld("API", {
+contextBridge.exposeInMainWorld("APP", {
     menu,
     game,
     listeners,
