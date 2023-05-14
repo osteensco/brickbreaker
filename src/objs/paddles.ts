@@ -5,11 +5,11 @@
 
 
 export class Paddle {
-
+    
     private readonly _ctx: CanvasRenderingContext2D;
     private _canvasWidth: number;
     private _canvasHeight: number;
-  
+    public keys: {[key: string]: boolean};
     public x: number;
     public y: number;
     public width: number;
@@ -17,7 +17,7 @@ export class Paddle {
     public speed: number;
   
     constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
-
+        this.keys = {};
         this._ctx = ctx;
         this._canvasWidth = canvas.width;
         this._canvasHeight = canvas.height;
@@ -33,6 +33,8 @@ export class Paddle {
   
     public draw(): void {
         
+        this.move();
+
         this._ctx.fillStyle = "#0095DD";
         this._ctx.fillRect(
             this.x - this.width / 2,
@@ -75,7 +77,7 @@ export class Paddle {
 
     public setSpeed(): number {
         // set the paddle speed to move one-half of the canvas width per second
-        return (this._canvasWidth / 2) / 16.7; 
+        return (this._canvasWidth / 4) / 16.7; 
     }
 
     public moveLeft() {
@@ -86,17 +88,23 @@ export class Paddle {
 		this.x += this.speed;
     }
   
-
+    public move() {
+        if (this.keys['ArrowLeft']) {
+            this.moveLeft()
+          } else if (this.keys['ArrowRight']) {
+            this.moveRight()
+          }
+    }
 
     public setMovementListeners(): void {
     
-        document.addEventListener('keydown', (event) => {
-            if (event.code === 'ArrowLeft') {
-              this.moveLeft()
-            } else if (event.code === 'ArrowRight') {
-              this.moveRight()
-            }
-          });
+        window.addEventListener('keydown', (event: KeyboardEvent) => {
+            this.keys[event.code] = true;
+        });
+        window.addEventListener('keyup', (event: KeyboardEvent) => {
+            this.keys[event.code] = false;
+        }); 
+          
     }
 
 

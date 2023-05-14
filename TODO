@@ -1,5 +1,5 @@
-Fix delayed paddle movement
-    -maybe fixed my assigning boolean variable to key that is pressed and applying a timedelta to speed variable
+Set up ball and boundaries for paddle and ball
+
 
 Build out game loop
 
