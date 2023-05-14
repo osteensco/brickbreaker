@@ -1,5 +1,5 @@
-Fix paddle movement and animation
-
+Fix delayed paddle movement
+    -maybe fixed my assigning boolean variable to key that is pressed and applying a timedelta to speed variable
 
 Build out game loop
 

@@ -48,7 +48,7 @@ const game = {
     windowResize: () => {
         updateSize(canvas);
         for (const objName in gameObjects) {
-            gameObjects[objName].updateSize(canvas);
+            gameObjects[objName].updateSize(ctx);
         }
     }
    

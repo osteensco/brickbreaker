@@ -1,6 +1,5 @@
 import { ipcRenderer } from "electron";
-import { Paddle } from "../objs/paddles";
-import { Ball } from "../objs/balls";
+
 
 
 
@@ -14,6 +13,7 @@ function gameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game
 
 
     // display all game objects on the screen with updated gameState data
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (const objName in gameObjects) {
         gameObjects[objName].draw(ctx);
     }
@@ -44,12 +44,7 @@ function gameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game
 }
 
 export function initGameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, gameObjects: any): void {
-    
-    
-    
 
-   
-    
 
 
     setInterval(() => {

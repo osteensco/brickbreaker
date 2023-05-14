@@ -32,7 +32,7 @@ export class Paddle {
     }
   
     public draw(): void {
-        this._ctx.clearRect(this.x, this.y, this.width, this.height);
+        
         this._ctx.fillStyle = "#0095DD";
         this._ctx.fillRect(
             this.x - this.width / 2,
@@ -54,23 +54,28 @@ export class Paddle {
     }
    
     public setPosX(): number {
-        return this._canvasWidth / 2; // set paddle in the middle of the canvas horizontally
+        // set paddle in the middle of the canvas horizontally
+        return this._canvasWidth / 2; 
     }
 
     public setPosY(): number {
-        return this._canvasHeight - this._canvasHeight / 10; // set paddle near the bottom of the canvas
+        // set paddle near the bottom of the canvas
+        return this._canvasHeight - this._canvasHeight / 10; 
     }
 
     public setWidth(): number {
-        return this._canvasWidth / 15; // set the paddle width to 1/13 of the canvas width
+        // set the paddle width to 1/13 of the canvas width
+        return this._canvasWidth / 15; 
     }
 
     public setHeight(): number {
-        return this._canvasHeight / 100; // set the paddle height to 1/80 of the canvas height
+        // set the paddle height to 1/80 of the canvas height
+        return this._canvasHeight / 100; 
     }
 
     public setSpeed(): number {
-        return this._canvasWidth / 2; // set the paddle speed to move one-half of the canvas width per second
+        // set the paddle speed to move one-half of the canvas width per second
+        return (this._canvasWidth / 2) / 16.7; 
     }
 
     public moveLeft() {
@@ -84,10 +89,11 @@ export class Paddle {
 
 
     public setMovementListeners(): void {
+    
         document.addEventListener('keydown', (event) => {
             if (event.code === 'ArrowLeft') {
               this.moveLeft()
-            } else if (event.code === 'ArrowLeft') {
+            } else if (event.code === 'ArrowRight') {
               this.moveRight()
             }
           });
