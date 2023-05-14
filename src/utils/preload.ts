@@ -12,10 +12,10 @@ import { Paddle } from "../objs/paddles";
 
 
 
+let canvas: HTMLCanvasElement
 let ctx: CanvasRenderingContext2D
 let main: mainMenu
-let canvas: HTMLCanvasElement
-let objects: any
+let gameObjects: any
 
 
 const menu = {
@@ -29,13 +29,13 @@ const game = {
 
     init: () => {
             // let gameState = defaultGameState;
-        objects = {
+        gameObjects = {
             player: new Paddle(canvas, ctx),
             // balls: {
             //     1: new Ball(player.x, )
             // },
         };
-        initGameLoop(canvas, ctx, objects);
+        initGameLoop(canvas, ctx, gameObjects);
     },
 
     loadCanvas: () => {
@@ -47,6 +47,9 @@ const game = {
 
     windowResize: () => {
         updateSize(canvas);
+        for (const objName in gameObjects) {
+            gameObjects[objName].updateSize(canvas);
+        }
     }
    
 };

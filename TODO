@@ -1,9 +1,6 @@
 Build out game loop
 
 
-Set up dynamic sizes
-
-
 Develop level generation algorithm for random levels and set designs for set levels
     -Infinite scaling:
         -levels are a grid system, 0 or 1 values for a block placed or not placed
