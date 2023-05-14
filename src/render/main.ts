@@ -3,9 +3,6 @@
 
 
 
-
-
-// const menu = new mainMenu()
 console.log("renderer script loaded");
 // @ts-expect-error
 APP.rendererSend.loaded()

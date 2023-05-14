@@ -47,7 +47,7 @@ export class Paddle {
     public updateSize(canvas: HTMLCanvasElement): void {
         this._canvasWidth = canvas.width;
         this._canvasHeight = canvas.height;
-    
+        console.log(`cWidth:${this._canvasWidth}, cHeight:${this._canvasHeight}`)
         this.x = this.setPosX();
         this.y = this.setPosY();
         this.width = this.setWidth();
@@ -66,29 +66,39 @@ export class Paddle {
     }
 
     public setWidth(): number {
-        // set the paddle width to 1/13 of the canvas width
+        // set the paddle width to 1/15 of the canvas width
         return this._canvasWidth / 15; 
     }
 
     public setHeight(): number {
-        // set the paddle height to 1/80 of the canvas height
+        // set the paddle height to 1/100 of the canvas height
         return this._canvasHeight / 100; 
     }
 
     public setSpeed(): number {
-        // set the paddle speed to move one-half of the canvas width per second
-        return (this._canvasWidth / 4) / 16.7; 
+        
+        return (this._canvasWidth / 5) / 16.7; 
     }
 
-    public moveLeft() {
-		this.x -= this.speed;
+    public moveLeft(): void {
+		if (this.x - this.width / 2 > 0) {
+            this.x -= this.speed;
+        } 
+        // else {
+        //     this.x = this.width / 2;
+        // }
     }
   
-    public moveRight() {
-		this.x += this.speed;
+    public moveRight(): void {
+		if (this.x + this.width / 2 < this._canvasWidth) {
+            this.x += this.speed;
+        } 
+        // else {
+        //     this.x = this._canvasWidth - this.width / 2;
+        // }
     }
   
-    public move() {
+    public move(): void {
         if (this.keys['ArrowLeft']) {
             this.moveLeft()
           } else if (this.keys['ArrowRight']) {
