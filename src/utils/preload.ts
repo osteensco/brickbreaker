@@ -6,7 +6,7 @@ import { mainMenu } from "../menu/mainMenu";
 import { initGameLoop } from "../game/gameLoop";
 import { createCanvas, getCanvasContext, updateSize } from "./helpers";
 import { Paddle } from "../objs/paddles";
-
+import { Ball } from "../objs/balls";
 
 // renderer process
 
@@ -31,9 +31,7 @@ const game = {
             // let gameState = defaultGameState;
         gameObjects = {
             player: new Paddle(canvas, ctx),
-            // balls: {
-            //     1: new Ball(player.x, )
-            // },
+            ball: new Ball(canvas, ctx),
         };
         initGameLoop(canvas, ctx, gameObjects);
     },

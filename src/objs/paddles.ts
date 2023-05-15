@@ -47,7 +47,7 @@ export class Paddle {
     public updateSize(canvas: HTMLCanvasElement): void {
         this._canvasWidth = canvas.width;
         this._canvasHeight = canvas.height;
-        console.log(`cWidth:${this._canvasWidth}, cHeight:${this._canvasHeight}`)
+        
         this.x = this.setPosX();
         this.y = this.setPosY();
         this.width = this.setWidth();
@@ -84,18 +84,12 @@ export class Paddle {
 		if (this.x - this.width / 2 > 0) {
             this.x -= this.speed;
         } 
-        // else {
-        //     this.x = this.width / 2;
-        // }
     }
   
     public moveRight(): void {
 		if (this.x + this.width / 2 < this._canvasWidth) {
             this.x += this.speed;
-        } 
-        // else {
-        //     this.x = this._canvasWidth - this.width / 2;
-        // }
+        }
     }
   
     public move(): void {
