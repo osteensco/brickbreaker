@@ -1,4 +1,4 @@
-Set up ball and boundaries for paddle and ball
+Paddle has to be passed to the ball object in order to handle movement while stuck on paddle
 
 
 Build out game loop
