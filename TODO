@@ -1,8 +1,13 @@
-Paddle has to be passed to the ball object in order to handle movement while stuck on paddle
+
+
+Fix ball slide when moving against wall
 
 
 Build out game loop
-
+    -Add collision checks
+    -Develop level start protocol
+    -???
+    -PROFIT
 
 Develop level generation algorithm for random levels and set designs for set levels
     -Infinite scaling:

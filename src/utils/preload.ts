@@ -31,8 +31,9 @@ const game = {
             // let gameState = defaultGameState;
         gameObjects = {
             player: new Paddle(canvas, ctx),
-            ball: new Ball(canvas, ctx),
+            
         };
+        gameObjects.ball = new Ball(gameObjects.player, canvas, ctx);
         initGameLoop(canvas, ctx, gameObjects);
     },
 
@@ -46,7 +47,6 @@ const game = {
     windowResize: () => {
         if (canvas) {
             updateSize(canvas);
-            ctx = getCanvasContext();
             for (const objName in gameObjects) {
                 gameObjects[objName].updateSize(canvas);
             }

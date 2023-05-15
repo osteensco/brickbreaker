@@ -12,24 +12,28 @@ export class Ball {
     private _canvasWidth: number;
     private _canvasHeight: number;
     public keys: {[key: string]: boolean};
+    public paddle: Paddle;
 	public x: number;
 	public y: number;
+    public vel: number;
 	public dx: number;
 	public dy: number;
 	public radius: number;
 	public despawn: boolean;
     public stuck: boolean;
 
-	constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+	constructor(player: Paddle, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
         this.keys = {};
+        this.paddle = player;
         this._ctx = ctx;
         this._canvasWidth = canvas.width;
         this._canvasHeight = canvas.height;
-        this.radius = canvas.width / 20;
+        this.radius = this.setRadius();
 		this.x = canvas.width / 2;
 		this.y = this.setPosY();
-		this.dx = Math.random() * 2 - 1; 
-        this.dy = Math.random() * 2 - 1; 
+        this.vel = (this._canvasWidth / 5) / 16.7;
+		this.dx = (Math.random() - 1) * this.vel; 
+        this.dy = (Math.random() - 1) * this.vel; 
 		this.despawn = false;
         this.stuck = true;
 
@@ -57,9 +61,10 @@ export class Ball {
         this._canvasWidth = canvas.width;
         this._canvasHeight = canvas.height;
 
-        this.radius = this._canvasWidth / 20;
+        this.radius = this.setRadius();
         this.x = (this.x / oldCanvasWidth) * this._canvasWidth;
         this.y = (this.y / oldCanvasHeight) * this._canvasHeight;
+        this.vel = (this.vel / oldCanvasWidth) * this._canvasWidth;
         this.dx = (this.dx / oldCanvasWidth) * this._canvasWidth;
         this.dy = (this.dy / oldCanvasHeight) * this._canvasHeight;
         
@@ -73,6 +78,8 @@ export class Ball {
             this.moveLeft()
         } else if (this.keys['ArrowRight']) {
             this.moveRight()
+        } else if (this.keys['Space']) {
+            this.stuck = false;
         }
     }
 		
@@ -80,13 +87,13 @@ export class Ball {
 
     public moveLeft(): void {
 		if (this.x - this.radius > 0) {
-            this.x -= 1;
+            this.x -= this.paddle.speed;
         } 
     }
   
     public moveRight(): void {
 		if (this.x + this.radius < this._canvasWidth) {
-            this.x += 1;
+            this.x += this.paddle.speed;
         }
     }
 
@@ -98,6 +105,7 @@ export class Ball {
         window.addEventListener('keyup', (event: KeyboardEvent) => {
             this.keys[event.code] = false;
         }); 
+        
     }
 
 	public collideWithPaddle(paddle: Paddle): void {
@@ -158,23 +166,11 @@ export class Ball {
 
     public setPosY(): number {
         // set ball slightly above the paddle
-        return (this._canvasHeight - this._canvasHeight / 10)-this.radius*2; 
+        return (this._canvasHeight - this._canvasHeight / 10) - (this.paddle.height*2); 
     }
 
-	// public get x(): number {
-	// 	return this._x;
-	// }
-
-	// public get y(): number {
-	// 	return this._y;
-	// }
-
-	// public get radius(): number {
-	// 	return this._radius;
-	// }
-
-	// public get despawn(): boolean {
-	// 	return this._despawn
-	// }
+	public setRadius(): number {
+        return this._canvasWidth / 110;
+    }
 
 }
