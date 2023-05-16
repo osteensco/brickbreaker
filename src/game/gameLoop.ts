@@ -19,7 +19,7 @@ function gameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game
         // console.log(`${gameObjects[objName].x},${gameObjects[objName].y}`);
         gameObjects[objName].draw();
     }
-
+    
 
 }
 

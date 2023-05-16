@@ -71,6 +71,10 @@ export class Ball {
     }
 
 	public move(): void {
+
+        this.collideWithPaddle();
+        this.collideWithWall();
+
         if (!this.stuck) {
             this.x += this.dx;
 		    this.y += this.dy;
@@ -81,18 +85,25 @@ export class Ball {
         } else if (this.keys['Space']) {
             this.stuck = false;
         }
+
     }
 		
 	
 
     public moveLeft(): void {
-		if (this.x - this.radius > 0) {
+		if (
+            this.x - this.radius > 0 &&
+            this.paddle.x - this.paddle.width / 2 > - this.paddle.speed 
+        ) {
             this.x -= this.paddle.speed;
-        } 
+        }
     }
   
     public moveRight(): void {
-		if (this.x + this.radius < this._canvasWidth) {
+		if (
+            this.x + this.radius < this._canvasWidth &&
+            this.paddle.x + this.paddle.width / 2 < this._canvasWidth + this.paddle.speed
+        ) {
             this.x += this.paddle.speed;
         }
     }
@@ -108,12 +119,13 @@ export class Ball {
         
     }
 
-	public collideWithPaddle(paddle: Paddle): void {
+	public collideWithPaddle(): void {
 		if (
-			this.y + this.dy > paddle.y &&
-			this.y + this.dy < paddle.y + paddle.height &&
-			this.x + this.dx > paddle.x &&
-			this.x + this.dx < paddle.x + paddle.width
+            !this.stuck &&
+			this.y + this.dy > this.paddle.y - this.paddle.height / 2 &&
+			this.y + this.dy < this.paddle.y + this.paddle.height / 2 &&
+			this.x + this.dx > this.paddle.x - this.paddle.width / 2 &&
+			this.x + this.dx < this.paddle.x + this.paddle.width / 2
 		) {
 			this.dy = -this.dy;
 
@@ -139,14 +151,14 @@ export class Ball {
 		}
 	}
 
-	public collideWithWall(canvas: HTMLCanvasElement): void {
-		if (this.x + this.dx > canvas.width - this.radius || this.x + this.dx < this.radius) {
+	public collideWithWall(): void {
+		if (this.x + this.dx > this._canvasWidth - this.radius || this.x + this.dx < this.radius) {
 			this.dx = -this.dx;
 		}
 
 		if (this.y + this.dy < this.radius) {
 			this.dy = -this.dy;
-		} else if (this.y + this.dy > canvas.height - this.radius) {
+		} else if (this.y + this.dy > this._canvasHeight - this.radius) {
 			this.despawn = true;
 		}
 	}

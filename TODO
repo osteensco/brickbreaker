@@ -1,11 +1,10 @@
 
 
-Fix ball slide when moving against wall
-
-
 Build out game loop
-    -Add collision checks
+    
     -Develop level start protocol
+    -Add brick collision checks
+    -Incorporate drops/power ups/hazards
     -???
     -PROFIT
 
