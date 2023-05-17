@@ -10,7 +10,7 @@ export function createWindow (): BrowserWindow {
     let mainWindow: BrowserWindow;
 
     mainWindow = new BrowserWindow({
-        width: 1000, height: 700,
+        width: 1400, height: 1000,
         autoHideMenuBar: true,
         webPreferences: {
             preload: join(__dirname, "/preload.js"),

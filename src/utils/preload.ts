@@ -31,7 +31,7 @@ const game = {
             // let gameState = defaultGameState;
         gameObjects = {
             player: new Paddle(canvas, ctx),
-            
+            level: null,
         };
         gameObjects.ball = new Ball(gameObjects.player, canvas, ctx);
         initGameLoop(canvas, ctx, gameObjects);

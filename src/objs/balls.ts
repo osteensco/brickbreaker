@@ -31,7 +31,7 @@ export class Ball {
         this.radius = this.setRadius();
 		this.x = canvas.width / 2;
 		this.y = this.setPosY();
-        this.vel = (this._canvasWidth / 5) / 16.7;
+        this.vel = (this._canvasWidth / 10) / 16.7;
 		this.dx = (Math.random() - 1) * this.vel; 
         this.dy = (Math.random() - 1) * this.vel; 
 		this.despawn = false;
