@@ -77,21 +77,32 @@ export function updateSize(canvas: HTMLCanvasElement): void {
 
 export function displayGameMessage(message: string, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D): void {
 
+    ctx.clearRect(canvas.width / 3, canvas.height / 3, canvas.width / 3, canvas.height / 3)
     ctx.font = '48px Arial';
     ctx.textAlign = 'center';
     ctx.fillStyle = 'white';
     ctx.fillText(message, canvas.width / 2, canvas.height / 2);
-  
-    const startTime = Date.now();
-    let paused = true;
-
-    while (paused) {
-        if (Date.now() - startTime >= 4000) {
-            paused = false;
-        }
-    }
     
   }
+
+
+
+export function startMessageTimer(game: any) {
+    game.message.show = true;
+
+    // clear any existing timer
+    if (game.message.timer) {
+    clearTimeout(game.message.timer);
+    }
+
+    // start timer and hide the message after the duration
+    game.message.timer = setTimeout(() => {
+    game.message.show = false;
+    game.message.timer = null;
+    }, game.message.duration);
+}
+
+
 
 
 

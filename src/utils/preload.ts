@@ -32,6 +32,16 @@ const game = {
         gameObjects = {
             player: new Paddle(canvas, ctx),
             level: null,
+            message: {
+                show: true,
+                text: '',
+                timer: null,
+                duration: 4000,
+                draw: () => {
+                    // dummy function to allow for simple loop in gameLoop
+                    return
+                }
+            },
         };
         gameObjects.ball = new Ball(gameObjects.player, canvas, ctx);
         initGameLoop(canvas, ctx, gameObjects);

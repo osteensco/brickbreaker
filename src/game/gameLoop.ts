@@ -2,7 +2,7 @@ import { ipcRenderer } from "electron";
 import { Level } from "./levelBuilder";
 import { lvl_1 } from "./levels";
 import { Brick } from "../objs/bricks";
-import { displayGameMessage } from "../utils/helpers";
+import { displayGameMessage, startMessageTimer } from "../utils/helpers";
 
 
 
@@ -11,34 +11,46 @@ import { displayGameMessage } from "../utils/helpers";
 
 
 
-function gameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, gameObjects: any): void {
+function gameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game: any): void {
 
     
     // check if the current level is empty or if it's the start of the game
-    if (!gameObjects.level || gameObjects.level.bricks.length === 0) {
-        displayGameMessage('Level 1', canvas, ctx);
-        gameObjects.level = new Level(lvl_1, canvas, ctx);
+    if (!game.level || game.level.bricks.length === 0) {
+        startMessageTimer(game);
+        game.message.text = 'Level 1';
+        game.level = new Level(lvl_1, canvas, ctx);
     }
 
-    if (gameObjects.ball.despawn) {
-        displayGameMessage('Ball Lost!', canvas, ctx);
+    // check if ball has fallen off screen
+    if (game.ball.despawn && !game.message.timer) {
+        startMessageTimer(game);
+        game.message.text = 'Ball Lost!';
     }
 
-    for (const b in gameObjects.level.bricks) {
-        const brick = gameObjects.level.bricks[b]
-        
-        gameObjects.level.bricks = gameObjects.level.bricks.filter((brick: Brick) => !brick.destroyed);
-        
-        gameObjects.ball.collideWithBrick(brick)
+    // manage brick array and check collisions
+    game.level.bricks = game.level.bricks.filter((brick: Brick) => !brick.destroyed);
+    for (const b in game.level.bricks) {
+        const brick = game.level.bricks[b]
+        game.ball.collideWithBrick(brick)
     }
 
-    // display all game objects on the screen with updated gameState data
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (const objName in gameObjects) {
-        gameObjects[objName].draw();
+    // checks if game should pause to display a message
+    if (!game.message.show) {
+        // display all game objects on the screen with updated gameState data
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (const objName in game) {
+            game[objName].draw();
+        }
+    } else {
+        displayGameMessage(game.message.text, canvas, ctx)
     }
+
+
+
+    requestAnimationFrame(() => {
+        gameLoop(canvas, ctx, game);
+    });
     
-
 }
 
 
@@ -46,11 +58,11 @@ function gameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game
 
 
 
-export function initGameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, gameObjects: any): void {
+export function initGameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game: any): void {
 
-    setInterval(() => {
-        gameLoop(canvas, ctx, gameObjects);
-      }, 16.7); // run game loop at 60 fps
+    requestAnimationFrame(() => {
+        gameLoop(canvas, ctx, game);
+      }); // run game loop at 60 fps
 }
 
 
