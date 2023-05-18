@@ -37,6 +37,7 @@ export class Brick {
 		this.hp -= 1;
 		if (this.hp <= 0) {
 			this.destroyed = true;
+
 		}
 	}
 

@@ -171,9 +171,30 @@ export class Ball {
 			this.y + this.radius > brick.y &&
 			this.y - this.radius < brick.y + brick.height
 		) {
-			brick.hit();
-		}
-		}
+            const previousBallCenterX = this.x - this.dx;
+            const previousBallCenterY = this.y - this.dy;
+        
+            if (
+                previousBallCenterX + this.radius <= brick.x ||
+                previousBallCenterX - this.radius >= brick.x + brick.width
+            ) {
+                // Ball hits a vertical surface of the brick
+                this.dx = -this.dx;
+            } else if (
+              previousBallCenterY + this.radius <= brick.y ||
+              previousBallCenterY - this.radius >= brick.y + brick.height
+            ) {
+                // Ball hits a horizontal surface of the brick
+                this.dy = -this.dy;
+            } else {
+                // Ball hits a corner of the brick
+                this.dx = -this.dx;
+                this.dy = -this.dy;
+            }
+        
+            brick.hit();
+        }
+	}
 
 
     public setPosY(): number {
