@@ -1,18 +1,11 @@
 
+Improvements
+    -ball should spawn on paddle at new level start (currently continues to move from last position and level completetion)
+    -account for 0 ball.dx value
+    -set up database or other persistent storage for level designs
 
-Build out game loop
-    
-    -Develop level start protocol
-    -Add brick collision checks
-    -Incorporate drops/power ups/hazards
-    -???
-    -PROFIT
 
-Develop level generation algorithm for random levels and set designs for set levels
-    -Infinite scaling:
-        -levels are a grid system, 0 or 1 values for a block placed or not placed
-        -a value > 0 acts as block's hp, block looses 1 hp per ball hit
-        -for each iteration of a level group these values can be +1
+
 
 Build other menu components
     -high scores

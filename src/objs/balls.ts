@@ -1,6 +1,6 @@
 import { Brick } from './bricks';
 import { Paddle } from './paddles';
-
+import { randomNumberBetween } from '../utils/helpers';
 
 
 // renderer process
@@ -32,8 +32,8 @@ export class Ball {
 		this.x = this.paddle.x;
 		this.y = this.paddle.y - (this.paddle.height*2);
         this.vel = (this._canvasWidth / 10) / 16.7;
-		this.dx = (Math.random() - 1) * this.vel; 
-        this.dy = (Math.random() - 1) * this.vel; 
+		this.dx = (randomNumberBetween(-4,4)/10) * this.vel; 
+        this.dy = -.5 * this.vel; 
 		this.despawn = false;
         this.stuck = true;
 
