@@ -29,8 +29,8 @@ export class Ball {
         this._canvasWidth = canvas.width;
         this._canvasHeight = canvas.height;
         this.radius = this.setRadius();
-		this.x = canvas.width / 2;
-		this.y = this.setPosY();
+		this.x = this.paddle.x;
+		this.y = this.paddle.y - (this.paddle.height*2);
         this.vel = (this._canvasWidth / 10) / 16.7;
 		this.dx = (Math.random() - 1) * this.vel; 
         this.dy = (Math.random() - 1) * this.vel; 
@@ -164,7 +164,7 @@ export class Ball {
 	}
 
 	
-	public collideWithBrick(brick: Brick): void {
+	public collideWithBrick(brick: Brick): boolean {
 		if (
 			this.x + this.radius > brick.x &&
 			this.x - this.radius < brick.x + brick.width &&
@@ -193,14 +193,11 @@ export class Ball {
             }
         
             brick.hit();
+            return true
         }
+        return false
 	}
 
-
-    public setPosY(): number {
-        // set ball slightly above the paddle
-        return (this._canvasHeight - this._canvasHeight / 10) - (this.paddle.height*2); 
-    }
 
 	public setRadius(): number {
         return this._canvasWidth / 110;

@@ -3,7 +3,7 @@ import { Level } from "./levelBuilder";
 import { lvl_1 } from "./levels";
 import { Brick } from "../objs/bricks";
 import { displayGameMessage, startMessageTimer } from "../utils/helpers";
-
+import { Ball } from "../objs/balls";
 
 
 
@@ -25,13 +25,16 @@ function gameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game
     if (game.ball.despawn && !game.message.timer) {
         startMessageTimer(game);
         game.message.text = 'Ball Lost!';
+        game.ball = new Ball(game.player, canvas, ctx);
     }
 
     // manage brick array and check collisions
     game.level.bricks = game.level.bricks.filter((brick: Brick) => !brick.destroyed);
     for (const b in game.level.bricks) {
         const brick = game.level.bricks[b]
-        game.ball.collideWithBrick(brick)
+       if (game.ball.collideWithBrick(brick)) {
+        break
+       }
     }
 
     // checks if game should pause to display a message
