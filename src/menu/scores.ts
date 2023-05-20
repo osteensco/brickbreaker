@@ -18,7 +18,7 @@ export class scoresMenu {
         this.container = createElement('div', 'scores-menu');
         this.selectorString = '.scores-menu'
         this.title = this.createTitle();
-        this.mainMenu = this.createButton('nav-main', 'New Game', this.navMain);
+        this.mainMenu = this.createButton('nav-main', 'Main Menu', this.navMain);
 
     }
 
@@ -38,7 +38,7 @@ export class scoresMenu {
 
 
     private createTitle(): HTMLElement {
-        let title = createElement('h1','title', 'title', this.selectorString);
+        let title = createElement('h1','alt-title', 'alt-title', this.selectorString);
         title.appendChild(document.createTextNode('High Scores'))
         return title
     }

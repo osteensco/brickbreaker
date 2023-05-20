@@ -18,7 +18,7 @@ export class settingsMenu {
         this.container = createElement('div', 'settings-menu');
         this.selectorString = '.settings-menu'
         this.title = this.createTitle();
-        this.mainMenu = this.createButton('nav-main', 'New Game', this.navMain);
+        this.mainMenu = this.createButton('nav-main', 'Main Menu', this.navMain);
 
     }
 
@@ -38,7 +38,7 @@ export class settingsMenu {
 
 
     private createTitle(): HTMLElement {
-        let title = createElement('h1','title', 'title', this.selectorString);
+        let title = createElement('h1','alt-title', 'alt-title', this.selectorString);
         title.appendChild(document.createTextNode('Settings'))
         return title
     }
