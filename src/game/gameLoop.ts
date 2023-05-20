@@ -40,7 +40,7 @@ function gameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game
         
     }
 
-    // manage brick array and check collisions
+    // manage brick array and check brick collisions
     game.objs.level.bricks = game.objs.level.bricks.filter((brick: Brick) => !brick.destroyed);
     for (const b in game.objs.level.bricks) {
         const brick = game.objs.level.bricks[b]
@@ -51,7 +51,7 @@ function gameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game
 
     // checks if game should pause to display a message
     if (!game.message.show) {
-        // display all game objects on the screen with updated gameState data
+        // display all game objects on the screen with updated movements/collisions
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         for (const objName in game.objs) {
             game.objs[objName].draw();
@@ -67,7 +67,7 @@ function gameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game
     }
 
 
-
+    // continue running game
     if (game.run) {
         requestAnimationFrame(() => {
             gameLoop(canvas, ctx, game);
@@ -89,7 +89,7 @@ export function initGameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingCont
 
     requestAnimationFrame(() => {
         gameLoop(canvas, ctx, game);
-      }); // run game loop at 60 fps
+      });
 }
 
 

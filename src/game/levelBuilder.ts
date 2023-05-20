@@ -30,7 +30,7 @@ export class Level {
         const colCount = this.pattern[0].length;
   
           // Calculate the size of each brick based on canvas dimensions, pattern size, and padding
-        const padding = 2; // Adjust the padding value as needed
+        const padding = 2; 
         const availableWidth = canvas.width;
         const availableHeight = canvas.height / 2;
         const brickWidth = (availableWidth - (colCount - 1) * padding) / colCount;

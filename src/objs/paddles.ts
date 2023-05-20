@@ -68,12 +68,12 @@ export class Paddle {
     }
 
     public setWidth(): number {
-        // set the paddle width to 1/15 of the canvas width
+        
         return this._canvasWidth / 15; 
     }
 
     public setHeight(): number {
-        // set the paddle height to 1/100 of the canvas height
+        
         return this._canvasHeight / 100; 
     }
 

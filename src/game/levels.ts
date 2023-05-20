@@ -3,6 +3,10 @@
 // renderer process
 
 
+
+
+// each level is an array of arrays containing BrickInfo
+
 export interface BrickInfo {
     health: number;
     color?: string;
