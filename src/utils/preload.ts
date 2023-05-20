@@ -7,6 +7,7 @@ import { initGameLoop } from "../game/gameLoop";
 import { createCanvas, getCanvasContext, updateSize } from "./helpers";
 import { Paddle } from "../objs/paddles";
 import { Ball } from "../objs/balls";
+import { lvl_1, lvl_2, lvl_3 } from "../game/levels";
 
 // renderer process
 
@@ -30,21 +31,22 @@ const game = {
     init: () => {
 
         gameObjects = {
-            player: new Paddle(canvas, ctx),
-            level: null,
+            objs: {
+                player: new Paddle(canvas, ctx),
+                level: null,
+            },
             message: {
                 show: true,
                 text: '',
                 timer: null,
                 duration: 4000,
-                // dummy functions to allow for simple loop in gameLoop
-                draw: () => {
-                    return
-                },
-                updateSize: (canvas: HTMLCanvasElement) => {
-                    return
-                }
             },
+            current_level: 0,
+            level_map: [
+                lvl_1,
+                lvl_2,
+                lvl_3
+            ]
         };
 
         initGameLoop(canvas, ctx, gameObjects);
