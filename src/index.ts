@@ -23,7 +23,7 @@ app.on("ready", () => {
       }
     
     
-    ipcMain.on("renderer-load", () => {
+    ipcMain.on("load-menu", () => {
         mainWindow.webContents.send("app-start");
     });
 
@@ -36,8 +36,18 @@ app.on("ready", () => {
     });
 
 
-    
-    
+    ipcMain.on("nav-scores", () => {
+        mainWindow.webContents.send("scores-load");
+    });
+
+
+    ipcMain.on("nav-settings", () => {
+        mainWindow.webContents.send("settings-load");
+    });
+
+
+
+
 
 
 

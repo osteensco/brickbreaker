@@ -3,10 +3,11 @@
 // exposing node processes to the internet
 import { ipcRenderer, contextBridge } from "electron";
 import { mainMenu } from "../menu/mainMenu";
+import { scoresMenu } from "../menu/scores";
+import { settingsMenu } from "../menu/settings";
 import { initGameLoop } from "../game/gameLoop";
 import { createCanvas, getCanvasContext, updateSize } from "./helpers";
 import { Paddle } from "../objs/paddles";
-import { Ball } from "../objs/balls";
 import { lvl_1, lvl_2, lvl_3 } from "../game/levels";
 
 // renderer process
@@ -16,13 +17,24 @@ import { lvl_1, lvl_2, lvl_3 } from "../game/levels";
 let canvas: HTMLCanvasElement
 let ctx: CanvasRenderingContext2D
 let main: mainMenu
+let scores: scoresMenu
+let settings: settingsMenu
 let gameObjects: any
 
 
 const menu = {
-    load: () => {
+    loadMain: () => {
         main = new mainMenu();
-    } 
+    },
+
+    loadScores: () => {
+        scores = new scoresMenu();
+    },
+
+    loadSettings: () => {
+        settings = new settingsMenu();
+    },
+
 };
 
 
@@ -31,6 +43,8 @@ const game = {
     init: () => {
 
         gameObjects = {
+            run: true,
+            over: false,
             objs: {
                 player: new Paddle(canvas, ctx),
                 level: null,
@@ -83,13 +97,22 @@ const listeners = {
     onGameLoad: (callback: () => void) => {
         ipcRenderer.on("game-load", (_event, ) => callback());
     },
+    onScoresNav: (callback: () => void) => {
+        ipcRenderer.on("scores-load", (_event, ) => callback());
+    },
+    onSettingsNav: (callback: () => void) => {
+        ipcRenderer.on("settings-load", (_event, ) => callback());
+    },
 };
 
+
+
 const rendererSend = {
-    loaded: () => {
-        ipcRenderer.send("renderer-load");
+    appLoaded: () => {
+        ipcRenderer.send("load-menu");
     }
 }
+
 
 contextBridge.exposeInMainWorld("APP", {
     menu,

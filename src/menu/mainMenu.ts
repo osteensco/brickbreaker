@@ -55,13 +55,13 @@ export class mainMenu {
 
 
     private navScores(): void {
-        return
+        ipcRenderer.send("nav-scores")
     }
 
 
 
     private navSettings(): void {
-        return
+        ipcRenderer.send("nav-settings")
     }    
 
 
@@ -70,9 +70,6 @@ export class mainMenu {
         cleanup('menu')
     }
 
-    //TODO
-        //write function for each button's action
-        //import functions for each button's action
 
 }
 

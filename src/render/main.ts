@@ -3,9 +3,9 @@
 
 
 
-console.log("renderer script loaded");
+
 // @ts-expect-error
-APP.rendererSend.loaded()
+APP.rendererSend.appLoaded()
 // @ts-expect-error
 APP.listeners.onWindowSize((winSize) => {
     // @ts-expect-error
@@ -15,7 +15,7 @@ APP.listeners.onWindowSize((winSize) => {
 // @ts-expect-error
 APP.listeners.onStart(() => {
 	// @ts-expect-error
-	APP.menu.load();
+	APP.menu.loadMain();
 
 });
 // @ts-expect-error
@@ -26,11 +26,19 @@ APP.listeners.onGameLoad(() => {
 	// @ts-expect-error
 	APP.game.init();
 	
-	
-	
 });
+// @ts-expect-error
+APP.listeners.onScoresNav(() => {
+	// @ts-expect-error
+	APP.menu.loadScores();
 
+});
+// @ts-expect-error
+APP.listeners.onSettingsNav(() => {
+	// @ts-expect-error
+	APP.menu.loadSettings();
 
+});
 
 
 

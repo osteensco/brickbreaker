@@ -1,7 +1,7 @@
 import { ipcRenderer } from "electron";
 import { Level } from "./levelBuilder";
 import { Brick } from "../objs/bricks";
-import { displayGameMessage, startMessageTimer } from "../utils/helpers";
+import { cleanup, displayGameMessage, startMessageTimer } from "../utils/helpers";
 import { Ball } from "../objs/balls";
 
 
@@ -27,14 +27,15 @@ function gameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game
     }
 
     // check if ball has fallen off screen
-    if (game.objs.ball.despawn && !game.message.timer) {
+    if (game.objs.ball.despawn && !game.message.timer && !game.over) {
         startMessageTimer(game);
         if (game.objs.player.lives > 0) {
             game.message.text = 'Ball Lost!';
             game.objs.ball = new Ball(game.objs.player, canvas, ctx);
-            // game.player.lives -= 1;
+            game.objs.player.lives -= 1;
         } else {
-            game.message.text = 'Game Over'
+            game.message.text = 'Game Over';
+            game.over = true;
         }
         
     }
@@ -55,16 +56,28 @@ function gameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game
         for (const objName in game.objs) {
             game.objs[objName].draw();
         }
+        // when game is over clear canvas, end game loop, and return to main menu
+        if (game.over) {
+            cleanup('game-canvas')
+            game.run = false;
+            ipcRenderer.send("load-menu");
+        }
     } else {
         displayGameMessage(game.message.text, canvas, ctx)
     }
 
 
 
-    requestAnimationFrame(() => {
-        gameLoop(canvas, ctx, game);
-    });
-    
+    if (game.run) {
+        requestAnimationFrame(() => {
+            gameLoop(canvas, ctx, game);
+        });
+    }
+
+
+
+
+
 }
 
 
