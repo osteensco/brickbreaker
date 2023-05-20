@@ -10,18 +10,22 @@ import { BrickInfo } from "./levels";
 export class Level {
     public _canvas: HTMLCanvasElement;
     public _ctx: CanvasRenderingContext2D;
+    public _canvasWidth: number;
+    public _canvasHeight: number;
     public pattern: Array<Array<BrickInfo>>;
     public bricks: Array<Brick>;
 
     constructor(pattern: Array<Array<BrickInfo>>, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
         this._canvas = canvas;
         this._ctx = ctx;
+        this._canvasWidth = canvas.width;
+        this._canvasHeight = canvas.height;
         this.pattern = pattern;
         this.bricks = [];
-        this.build(canvas, ctx)
+        this.build(canvas)
     }
   
-    public build(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D): void {
+    public build(canvas: HTMLCanvasElement): void {
         const rowCount = this.pattern.length;
         const colCount = this.pattern[0].length;
   
@@ -56,9 +60,20 @@ export class Level {
         });
     }
 
-    public updateSize(): void {
+    public updateSize(canvas: HTMLCanvasElement): void {
         this.bricks.forEach(brick => {
-            return
+            
+            const oldCanvasWidth = this._canvasWidth;
+            const oldCanvasHeight = this._canvasHeight;
+
+            this._canvasWidth = canvas.width;
+            this._canvasHeight = canvas.height;
+    
+            brick.x = (brick.x / oldCanvasWidth) * this._canvasWidth;
+            brick.y = (brick.y / oldCanvasHeight) * this._canvasHeight;
+            brick.width = (brick.width / oldCanvasWidth) * this._canvasWidth;
+            brick.height = (brick.height / oldCanvasHeight) * this._canvasHeight;
+            
         });
     }
 

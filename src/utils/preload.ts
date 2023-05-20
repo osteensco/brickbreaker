@@ -28,7 +28,7 @@ const menu = {
 const game = {
 
     init: () => {
-            // let gameState = defaultGameState;
+
         gameObjects = {
             player: new Paddle(canvas, ctx),
             level: null,
@@ -37,14 +37,18 @@ const game = {
                 text: '',
                 timer: null,
                 duration: 4000,
+                // dummy functions to allow for simple loop in gameLoop
                 draw: () => {
-                    // dummy function to allow for simple loop in gameLoop
+                    return
+                },
+                updateSize: (canvas: HTMLCanvasElement) => {
                     return
                 }
             },
         };
-        gameObjects.ball = new Ball(gameObjects.player, canvas, ctx);
+
         initGameLoop(canvas, ctx, gameObjects);
+
     },
 
     loadCanvas: () => {

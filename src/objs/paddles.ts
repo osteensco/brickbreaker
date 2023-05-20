@@ -15,6 +15,7 @@ export class Paddle {
     public width: number;
     public height: number;
     public speed: number;
+    public lives: number;
   
     constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
         this.keys = {};
@@ -27,7 +28,8 @@ export class Paddle {
         this.width = this.setWidth();
         this.height = this.setHeight();
         this.speed = this.setSpeed();
-
+        this.lives = 3;
+        
         this.setMovementListeners();
     }
   

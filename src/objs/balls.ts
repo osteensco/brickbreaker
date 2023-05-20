@@ -55,6 +55,11 @@ export class Ball {
 	}
 
     public updateSize(canvas: HTMLCanvasElement): void {
+
+        if (this.stuck) {
+            this.x = this.paddle.x
+        }
+
         const oldCanvasWidth = this._canvasWidth;
         const oldCanvasHeight = this._canvasHeight;
 

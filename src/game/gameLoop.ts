@@ -19,13 +19,20 @@ function gameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game
         startMessageTimer(game);
         game.message.text = 'Level 1';
         game.level = new Level(lvl_1, canvas, ctx);
+        game.ball = new Ball(game.player, canvas, ctx);
     }
 
     // check if ball has fallen off screen
     if (game.ball.despawn && !game.message.timer) {
         startMessageTimer(game);
-        game.message.text = 'Ball Lost!';
-        game.ball = new Ball(game.player, canvas, ctx);
+        if (game.player.lives > 0) {
+            game.message.text = 'Ball Lost!';
+            game.ball = new Ball(game.player, canvas, ctx);
+            // game.player.lives -= 1;
+        } else {
+            game.message.text = 'Game Over'
+        }
+        
     }
 
     // manage brick array and check collisions

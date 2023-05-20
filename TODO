@@ -1,8 +1,7 @@
 
 Improvements
-    -ball should spawn on paddle at new level start (currently continues to move from last position and level completetion)
     -account for 0 ball.dx value
-    -set up database or other persistent storage for level designs
+        -mute issue with drops implemented?
 
 
 
@@ -13,6 +12,8 @@ Build other menu components
 
 Set up cached/saved settings capability
     -explore data persistancy options
-
+    -database for:
+        scores
+        level designs
 
 
