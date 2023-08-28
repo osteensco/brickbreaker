@@ -9,6 +9,7 @@ import { initGameLoop } from "../game/gameLoop";
 import { createCanvas, getCanvasContext, updateSize } from "./helpers";
 import { Paddle } from "../objs/paddles";
 import { lvl_1, lvl_2, lvl_3 } from "../game/levels";
+import { Score } from "../objs/score";
 
 // renderer process
 
@@ -43,12 +44,13 @@ const game = {
     init: () => {
 
         gameObjects = {
-            score: 0,
             run: true,
             over: false,
             objs: {
                 player: new Paddle(canvas, ctx),
                 level: null,
+                score: new Score(0, canvas, ctx),
+                // levelTxt: null,
             },
             message: {
                 show: true,

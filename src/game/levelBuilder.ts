@@ -14,8 +14,10 @@ export class Level {
     public _canvasHeight: number;
     public pattern: Array<Array<BrickInfo>>;
     public bricks: Array<Brick>;
+    public nbr: string;
 
-    constructor(pattern: Array<Array<BrickInfo>>, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+    constructor(levelNumber: string, pattern: Array<Array<BrickInfo>>, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+        this.nbr = levelNumber;
         this._canvas = canvas;
         this._ctx = ctx;
         this._canvasWidth = canvas.width;
@@ -54,10 +56,24 @@ export class Level {
         }
     }
 
+    public displayLevel(): void {
+        const padding = 10; 
+        const textX = padding;
+        const textY = this._canvas.height - padding;
+    
+        this._ctx.font = '36px Arial';
+        this._ctx.textAlign = 'left';
+        this._ctx.textBaseline = 'bottom';
+        this._ctx.fillStyle = 'white';
+
+        this._ctx.fillText(`Level: ${this.nbr}`, textX, textY);
+    }
+
     public draw(): void {
         this.bricks.forEach(brick => {
             brick.draw(this._ctx);
         });
+        this.displayLevel();
     }
 
     public updateSize(canvas: HTMLCanvasElement): void {
