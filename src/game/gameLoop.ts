@@ -18,8 +18,10 @@ function gameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game
         startMessageTimer(game);
         if (game.current_level < game.level_map.length) {
             game.current_level += 1;
+            game.score += 1500;
         } else {
-            game.current_level = 1
+            game.current_level = 1;
+            game.score += 3000;
         }
         game.message.text = `Level ${game.current_level}`;
         game.objs.level = new Level(game.level_map[game.current_level-1], canvas, ctx);
@@ -29,6 +31,7 @@ function gameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game
     // check if ball has fallen off screen
     if (game.objs.ball.despawn && !game.message.timer && !game.over) {
         startMessageTimer(game);
+        game.score -= 1000;
         if (game.objs.player.lives > 0) {
             game.message.text = 'Ball Lost!';
             game.objs.ball = new Ball(game.objs.player, canvas, ctx);
@@ -45,6 +48,7 @@ function gameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game
     for (const b in game.objs.level.bricks) {
         const brick = game.objs.level.bricks[b]
        if (game.objs.ball.collideWithBrick(brick)) {
+        game.score += 100
         break
        }
     }

@@ -43,6 +43,7 @@ const game = {
     init: () => {
 
         gameObjects = {
+            score: 0,
             run: true,
             over: false,
             objs: {
