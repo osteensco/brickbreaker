@@ -42,7 +42,7 @@ export class Ball {
 
 	public draw(): void {
         
-
+        console.log(`${this.dx}, ${this.dy}`)
         this.move();
         
         this._ctx.beginPath();
@@ -134,25 +134,11 @@ export class Ball {
 		) {
 			this.dy = -this.dy;
 
-			// Potential for improved collision physics. This should allow the player to alter the ball trajectory based on paddle movement. 
-			// Paddle object will need to track actual speed based on x position in previous frame(s).
-			// ex. if ball is still this value is 0, if moving it should calculate to be equal to paddle.speed since this value controls x axis velocity.
+			if (this.paddle.moving) {
+                this.adjBounceAngle();
+            }
 
-			// // Calculate the angle of reflection based on where the ball hits the paddle
-			// const relativeIntersectX = this._x - (paddle.x + paddle.width / 2);
-			// const normalizedRelativeIntersectX = relativeIntersectX / (paddle.width / 2);
-			// const bounceAngle = normalizedRelativeIntersectX * Math.PI / 3;
-			// // Calculate the new velocity of the ball based on the angle of reflection and the paddle speed
-			// const speed = Math.sqrt(this._dx * this._dx + this._dy * this._dy);
-			// const direction = Math.atan2(this._dy, this._dx);
-			// const newDirection = Math.PI - bounceAngle - direction;
-			// const newDx = Math.abs(speed * Math.cos(newDirection)) * (this._dx > 0 ? 1 : -1);
-			// const newDy = -Math.abs(speed * Math.sin(newDirection));
-			// // Apply a boost to the ball's horizontal speed based on the paddle's lateral speed
-			// const boost = Math.abs(paddle.currentVelocity) / 20;
-			// const sign = Math.sign(paddle.currentVelocity);
-			// this._dx = newDx + boost * sign;
-			// this._dy = newDy;
+			
 		}
 	}
 
@@ -206,6 +192,33 @@ export class Ball {
 
 	public setRadius(): number {
         return this._canvasWidth / 110;
+    }
+
+    public adjBounceAngle(): void {
+        // Calculate the angle of reflection based on where the ball hits the paddle
+        const relativeIntersectX = this.x - (this.paddle.x + this.paddle.width / 2);
+        const normalizedRelativeIntersectX = relativeIntersectX / (this.paddle.width / 2);
+        const bounceAngle = normalizedRelativeIntersectX * Math.PI / 3;
+        // Calculate the new velocity of the ball based on the angle of reflection and the paddle speed
+        const speed = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+        const direction = Math.atan2(this.dy, this.dx);
+        const newDirection = Math.PI - bounceAngle - direction;
+        let newDx = Math.abs(speed * Math.cos(newDirection)) * (this.dx > 0 ? 1 : -1);
+        // const newDy = -Math.abs(speed * Math.sin(newDirection));
+        // Apply a boost to the ball's horizontal speed based on the paddle's lateral speed
+        const boost = Math.abs(this.paddle.speed) / 100;
+        const sign = Math.sign(this.paddle.speed);
+        // Apply bounce angle
+        newDx = newDx + boost * sign;
+        // this.dy = newDy;
+        console.log(`${newDx}, ${this.dy}`)
+        // Apply horizontal floor for bounce angle
+        const horizontalFloor = -1.5*this.dy;
+        if (Math.abs(newDx) > horizontalFloor) {
+            newDx = horizontalFloor*sign;
+        } 
+        this.dx = newDx;
+        console.log(`${this.dx}, ${this.dy}`)
     }
 
 }

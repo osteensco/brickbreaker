@@ -16,8 +16,10 @@ export class Paddle {
     public height: number;
     public speed: number;
     public lives: number;
+    public moving: boolean;
   
     constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+        this.moving = false;
         this.keys = {};
         this._ctx = ctx;
         this._canvasWidth = canvas.width;
@@ -106,9 +108,11 @@ export class Paddle {
     
         window.addEventListener('keydown', (event: KeyboardEvent) => {
             this.keys[event.code] = true;
+            this.moving = true;
         });
         window.addEventListener('keyup', (event: KeyboardEvent) => {
             this.keys[event.code] = false;
+            this.moving = false;
         }); 
           
     }

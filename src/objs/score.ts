@@ -39,10 +39,6 @@ export class Score {
 
 
 
-export class LevelText {
-
-}
-
 
 
 
