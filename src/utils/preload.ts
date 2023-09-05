@@ -7,7 +7,6 @@ import { scoresMenu } from "../menu/scores";
 import { settingsMenu } from "../menu/settings";
 import { initGameLoop } from "../game/gameLoop";
 import { createCanvas, getCanvasContext, updateSize } from "./helpers";
-import { Paddle } from "../objs/paddles";
 import { lvl_1, lvl_2, lvl_3 } from "../game/levels";
 import { Score } from "../objs/score";
 import { Settings } from "../objs/settings";
@@ -52,12 +51,14 @@ const menu = {
 const game = {
 
     init: () => {
+        settings = new Settings(defaultSettings)
 
         gameObjects = {
+            settings: settings,
             run: true,
             over: false,
             objs: {
-                player: new Paddle(canvas, ctx),
+                player: null,
                 level: null,
                 score: new Score(0, canvas, ctx),
                 
@@ -66,7 +67,7 @@ const game = {
                 show: true,
                 text: '',
                 timer: null,
-                duration: 4000,
+                duration: 3000,
             },
             current_level: 0,
             level_map: [

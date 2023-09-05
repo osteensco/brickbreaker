@@ -3,6 +3,7 @@ import { Paddle } from './paddles';
 import { randomNumberBetween } from '../utils/helpers';
 
 
+
 // renderer process
 
 
@@ -22,7 +23,7 @@ export class Ball {
 	public despawn: boolean;
     public stuck: boolean;
 
-	constructor(player: Paddle, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+	constructor(player: Paddle, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game: any) {
         this.keys = {};
         this.paddle = player;
         this._ctx = ctx;
@@ -31,7 +32,7 @@ export class Ball {
         this.radius = this.setRadius();
 		this.x = this.paddle.x;
 		this.y = this.paddle.y - (this.paddle.height*2);
-        this.vel = (this._canvasWidth / 10) / 16.7;
+        this.vel = ((this._canvasWidth / 10) / 16.7) * game.settings.ballSpeed;
 		this.dx = (randomNumberBetween(-4,4)/10) * this.vel; 
         this.dy = -.5 * this.vel; 
 		this.despawn = false;
@@ -43,7 +44,6 @@ export class Ball {
 
 	public draw(): void {
         
-        console.log(`${this.dx}, ${this.dy}`)
         this.move();
         
         this._ctx.beginPath();
@@ -205,21 +205,17 @@ export class Ball {
         const direction = Math.atan2(this.dy, this.dx);
         const newDirection = Math.PI - bounceAngle - direction;
         let newDx = Math.abs(speed * Math.cos(newDirection)) * (this.dx > 0 ? 1 : -1);
-        // const newDy = -Math.abs(speed * Math.sin(newDirection));
         // Apply a boost to the ball's horizontal speed based on the paddle's lateral speed
         const boost = Math.abs(this.paddle.speed) / 100;
         const sign = Math.sign(this.paddle.speed);
         // Apply bounce angle
         newDx = newDx + boost * sign;
-        // this.dy = newDy;
-        console.log(`${newDx}, ${this.dy}`)
         // Apply horizontal floor for bounce angle
         const horizontalFloor = -1.5*this.dy;
         if (Math.abs(newDx) > horizontalFloor) {
             newDx = horizontalFloor*sign;
         } 
         this.dx = newDx;
-        console.log(`${this.dx}, ${this.dy}`)
     }
 
 }

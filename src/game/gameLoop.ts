@@ -3,7 +3,7 @@ import { Level } from "./levelBuilder";
 import { Brick } from "../objs/bricks";
 import { cleanup, displayGameMessage, startMessageTimer } from "../utils/helpers";
 import { Ball } from "../objs/balls";
-
+import { Paddle } from "../objs/paddles";
 
 
 // renderer process
@@ -12,7 +12,9 @@ import { Ball } from "../objs/balls";
 
 function gameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game: any): void {
 
-    
+    if (!game.objs.player) {
+        game.objs.player = new Paddle(canvas, ctx, game);
+    }
     // check if the current level is empty or if it's the start of the game
     if (!game.objs.level || game.objs.level.bricks.length === 0) {
         startMessageTimer(game);
@@ -26,8 +28,8 @@ function gameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game
             game.objs.score.update(3000);
         }
         game.message.text = `Level ${game.current_level}`;
-        game.objs.level = new Level(game.current_level.toString(), game.level_map[game.current_level-1], canvas, ctx);
-        game.objs.ball = new Ball(game.objs.player, canvas, ctx);
+        game.objs.level = new Level(game.current_level.toString(), game.level_map[game.current_level-1], canvas, ctx, game);
+        game.objs.ball = new Ball(game.objs.player, canvas, ctx, game);
     }
 
     // check if ball has fallen off screen
@@ -36,7 +38,7 @@ function gameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game
         game.objs.score.update(-1000);
         if (game.objs.player.lives > 0) {
             game.message.text = 'Ball Lost!';
-            game.objs.ball = new Ball(game.objs.player, canvas, ctx);
+            game.objs.ball = new Ball(game.objs.player, canvas, ctx, game);
             game.objs.player.lives -= 1;
         } else {
             game.message.text = 'Game Over';

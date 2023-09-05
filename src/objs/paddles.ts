@@ -2,6 +2,8 @@
 
 // renderer process
 
+import { Settings } from "./settings";
+
 
 
 export class Paddle {
@@ -14,11 +16,14 @@ export class Paddle {
     public y: number;
     public width: number;
     public height: number;
+    private baseSpeed: number;
     public speed: number;
     public lives: number;
     public moving: boolean;
+    public moveLeftKey: string;
+    public moveRightKey: string;
   
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game: any) {
         this.moving = false;
         this.keys = {};
         this._ctx = ctx;
@@ -29,10 +34,14 @@ export class Paddle {
         this.y = this.setPosY();
         this.width = this.setWidth();
         this.height = this.setHeight();
-        this.speed = this.setSpeed();
-        this.lives = 3;
+        this.baseSpeed = game.settings.paddleSpeed;
+        this.speed = this.setSpeed(this.baseSpeed);
+        this.lives = game.settings.lives;
         
         this.setMovementListeners();
+
+        this.moveLeftKey = game.settings.paddleLeftControl;
+        this.moveRightKey = game.settings.paddleRightControl;
     }
   
     public draw(): void {
@@ -56,7 +65,7 @@ export class Paddle {
         this.y = this.setPosY();
         this.width = this.setWidth();
         this.height = this.setHeight();
-        this.speed = this.setSpeed();
+        this.speed = this.setSpeed(this.baseSpeed);
     }
    
     public setPosX(): number {
@@ -79,9 +88,9 @@ export class Paddle {
         return this._canvasHeight / 100; 
     }
 
-    public setSpeed(): number {
+    public setSpeed(speed: number): number {
         
-        return (this._canvasWidth / 5) / 16.7; 
+        return ((this._canvasWidth / 5) / 16.7) * speed; 
     }
 
     public moveLeft(): void {
@@ -97,9 +106,9 @@ export class Paddle {
     }
   
     public move(): void {
-        if (this.keys['ArrowLeft']) {
+        if (this.keys[this.moveLeftKey]) {
             this.moveLeft()
-          } else if (this.keys['ArrowRight']) {
+          } else if (this.keys[this.moveRightKey]) {
             this.moveRight()
           }
     }

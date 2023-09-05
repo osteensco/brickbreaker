@@ -1,4 +1,5 @@
 import { Brick } from "../objs/bricks";
+import { Settings } from "../objs/settings";
 import { BrickInfo } from "./levels";
 
 // renderer process
@@ -16,7 +17,7 @@ export class Level {
     public bricks: Array<Brick>;
     public nbr: string;
 
-    constructor(levelNumber: string, pattern: Array<Array<BrickInfo>>, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+    constructor(levelNumber: string, pattern: Array<Array<BrickInfo>>, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game: any) {
         this.nbr = levelNumber;
         this._canvas = canvas;
         this._ctx = ctx;
@@ -24,10 +25,10 @@ export class Level {
         this._canvasHeight = canvas.height;
         this.pattern = pattern;
         this.bricks = [];
-        this.build(canvas)
+        this.build(canvas, game.settings)
     }
   
-    public build(canvas: HTMLCanvasElement): void {
+    public build(canvas: HTMLCanvasElement, settings: Settings): void {
         const rowCount = this.pattern.length;
         const colCount = this.pattern[0].length;
   
@@ -45,11 +46,13 @@ export class Level {
         for (let row = 0; row < rowCount; row++) {
             for (let col = 0; col < colCount; col++) {
                 const brickInfo = this.pattern[row][col];
+                const brickColor = brickInfo.color;
+                const brickHealth = brickInfo.health * settings.brickBaseHealth;
                 const brickX = col * (brickWidth + padding) + offsetX;
                 const brickY = row * (brickHeight + padding) + offsetY;
         
                 if (brickInfo.health !== 0) {
-                    const brick = new Brick(brickX, brickY, brickWidth, brickHeight, brickInfo.color || 'default-color', brickInfo.health);
+                    const brick = new Brick(brickX, brickY, brickWidth, brickHeight, brickColor || 'default-color', brickHealth);
                     this.bricks.push(brick);
                 }
             }
