@@ -36,9 +36,10 @@ export class Ball {
         this.dy = -.5 * this.vel; 
 		this.despawn = false;
         this.stuck = true;
-
+        
         this.setMovementListeners()
 	}
+        
 
 	public draw(): void {
         

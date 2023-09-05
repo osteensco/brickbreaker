@@ -10,6 +10,10 @@ import { createCanvas, getCanvasContext, updateSize } from "./helpers";
 import { Paddle } from "../objs/paddles";
 import { lvl_1, lvl_2, lvl_3 } from "../game/levels";
 import { Score } from "../objs/score";
+import { Settings } from "../objs/settings";
+import { defaultSettings } from "../objs/settings";
+
+
 
 // renderer process
 
@@ -17,23 +21,29 @@ import { Score } from "../objs/score";
 
 let canvas: HTMLCanvasElement
 let ctx: CanvasRenderingContext2D
-let main: mainMenu
-let scores: scoresMenu
-let settings: settingsMenu
+let mainView: mainMenu
+let scoresView: scoresMenu
+let settingsView: settingsMenu
 let gameObjects: any
+let settings: Settings
+
+
+
+
 
 
 const menu = {
     loadMain: () => {
-        main = new mainMenu();
+        mainView = new mainMenu();
     },
 
     loadScores: () => {
-        scores = new scoresMenu();
+        scoresView = new scoresMenu();
     },
 
     loadSettings: () => {
-        settings = new settingsMenu();
+        settings = new Settings(defaultSettings);
+        settingsView = new settingsMenu(settings);
     },
 
 };
@@ -50,7 +60,7 @@ const game = {
                 player: new Paddle(canvas, ctx),
                 level: null,
                 score: new Score(0, canvas, ctx),
-                // levelTxt: null,
+                
             },
             message: {
                 show: true,

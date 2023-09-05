@@ -1,3 +1,4 @@
+import { Settings } from "../objs/settings";
 import { createElement, cleanup } from "../utils/helpers";
 import { ipcRenderer } from "electron";
 
@@ -12,13 +13,15 @@ export class settingsMenu {
     private selectorString: string;
     private title: HTMLElement;
     private mainMenu: HTMLElement;
+    private settings: Settings;
 
 
-    constructor() {
+    constructor(settings: Settings ) {
         this.container = createElement('div', 'settings-menu');
         this.selectorString = '.settings-menu'
         this.title = this.createTitle();
         this.mainMenu = this.createButton('nav-main', 'Main Menu', this.navMain);
+        this.settings = settings;
 
     }
 
