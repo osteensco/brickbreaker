@@ -22,6 +22,7 @@ export class settingsMenu {
         this.title = this.createTitle();
         this.mainMenu = this.createButton('nav-main', 'Main Menu', this.navMain);
         this.settings = settings;
+        this.createAllSettingInputs();
 
     }
 
@@ -44,6 +45,46 @@ export class settingsMenu {
         let title = createElement('h1','alt-title', 'alt-title', this.selectorString);
         title.appendChild(document.createTextNode('Settings'))
         return title
+    }
+
+
+
+    private createAllSettingInputs(): void {
+
+        for (const key in this.settings.map) {
+            if (this.settings.map.hasOwnProperty(key)) {
+                
+                const value = this.settings.map[key];
+                this.createSettingInput(key, value)
+            }
+        }
+        
+    }
+
+
+
+    private createSettingInput(key: string, value: number | string): void {
+        const settingContainer = createElement('div', 'setting-container', undefined, this.selectorString);
+        const label = createElement('label', 'setting-label', undefined, undefined);
+        label.innerText = key;
+        const input = createElement('input', 'setting-input', undefined, undefined) as HTMLInputElement;
+        input.name = key;
+        input.value = String(value);
+        input.addEventListener('change', () => {
+            this.handleSettingChange(key, input.value);
+        });
+        settingContainer.appendChild(label);
+        settingContainer.appendChild(input);
+        this.container.appendChild(settingContainer); 
+    }
+
+
+
+    private handleSettingChange(key: string, newValue: string): void {
+        
+        this.settings.change(key, newValue);
+        // TODO:
+        //  Save to database
     }
 
 

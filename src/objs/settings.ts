@@ -22,7 +22,7 @@ export class Settings {
     public readonly paddleLeftControl: string;
     public readonly paddleRightControl: string;
     public readonly paddleUsePowerControl: string;
-
+    public readonly map: {[key: string]: number | string}
 
 
     constructor(settingsMap: {[key: string]: number | string}) {
@@ -33,6 +33,7 @@ export class Settings {
         this.paddleLeftControl = settingsMap['paddleLeftControl'] as string;
         this.paddleRightControl = settingsMap['paddleRightControl'] as string;
         this.paddleUsePowerControl = settingsMap['paddleUsePowerControl'] as string;
+        this.map = this.toDictionary();
     }
 
     public change(property: number | string, newValue: number | string) {
@@ -42,6 +43,18 @@ export class Settings {
             console.log(`${typeof property} != ${typeof newValue}`);
             // handle type errors    
         }
+    }
+
+    public toDictionary(): { [key: string]: number | string } {
+        const dictionary: { [key: string]: number | string } = {};
+
+        for (const key in this) {
+            if (this.hasOwnProperty(key)) {
+                dictionary[key] = this[key] as number | string;
+            }
+        }
+
+        return dictionary;
     }
 
 
