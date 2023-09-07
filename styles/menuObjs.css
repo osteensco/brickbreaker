@@ -69,6 +69,54 @@
 
 
 
+.settings-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+
+
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    border: 3px solid rgba(135, 17, 245, .5);
+    border-radius: 10%;
+    padding: 10%;
+    margin: 0 auto; 
+    overflow: hidden;
+}
+
+
+
+.setting-row {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    padding: 1%;
+}
+
+
+
+.setting-label {
+    color: #fdfdfd;
+    margin: 5%;
+}
+
+
+
+.setting-input {
+    align-self: flex-end;
+    color: #fdfdfd;
+    background-color: #2d2d2d;
+    margin: 5%;
+}
+
+
+
 #start-game {
     --colorchnge: rgb(20, 225, 0);
     position:absolute;

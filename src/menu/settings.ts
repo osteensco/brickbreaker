@@ -9,18 +9,20 @@ import { ipcRenderer } from "electron";
 
 
 export class settingsMenu {
-    private container: HTMLElement;
+    private screenContainer: HTMLElement;
+    private settingsContainer: HTMLElement;
     private selectorString: string;
     private title: HTMLElement;
-    private mainMenu: HTMLElement;
+    private mainMenuButton: HTMLElement;
     private settings: Settings;
 
 
     constructor(settings: Settings ) {
-        this.container = createElement('div', 'settings-menu');
         this.selectorString = '.settings-menu'
+        this.screenContainer = createElement('div', 'settings-menu');
+        this.settingsContainer = createElement('div', 'settings-container', undefined, this.selectorString);
         this.title = this.createTitle();
-        this.mainMenu = this.createButton('nav-main', 'Main Menu', this.navMain);
+        this.mainMenuButton = this.createButton('nav-main', 'Main Menu', this.navMain);
         this.settings = settings;
         this.createAllSettingInputs();
 
@@ -29,7 +31,7 @@ export class settingsMenu {
 
 
     private createButton(id: string, text: string, action: () => void): HTMLElement {
-        let button = createElement('a', 'button', id, this.selectorString);
+        let button = createElement('a', 'button', id);
         button.setAttribute('href', '#');
         button.addEventListener("click", () => {
             action()
@@ -42,7 +44,7 @@ export class settingsMenu {
 
 
     private createTitle(): HTMLElement {
-        let title = createElement('h1','alt-title', 'alt-title', this.selectorString);
+        let title = createElement('h1','alt-title', 'alt-title');
         title.appendChild(document.createTextNode('Settings'))
         return title
     }
@@ -64,10 +66,10 @@ export class settingsMenu {
 
 
     private createSettingInput(key: string, value: number | string): void {
-        const settingContainer = createElement('div', 'setting-container', undefined, this.selectorString);
-        const label = createElement('label', 'setting-label', undefined, undefined);
+        const settingContainer = createElement('div', 'setting-row', undefined, '.settings-container');
+        const label = createElement('label', 'setting-label');
         label.innerText = key;
-        const input = createElement('input', 'setting-input', undefined, undefined) as HTMLInputElement;
+        const input = createElement('input', 'setting-input') as HTMLInputElement;
         input.name = key;
         input.value = String(value);
         input.addEventListener('change', () => {
@@ -75,7 +77,7 @@ export class settingsMenu {
         });
         settingContainer.appendChild(label);
         settingContainer.appendChild(input);
-        this.container.appendChild(settingContainer); 
+        this.settingsContainer.appendChild(settingContainer); 
     }
 
 
