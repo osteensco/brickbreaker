@@ -23,6 +23,8 @@ export class settingsMenu {
         this.settingsContainer = createElement('div', 'settings-container', undefined, this.selectorString);
         this.title = this.createTitle();
         this.mainMenuButton = this.createButton('nav-main', 'Main Menu', this.navMain);
+        this.screenContainer.appendChild(this.title);
+        this.screenContainer.appendChild(this.mainMenuButton);
         this.settings = settings;
         this.createAllSettingInputs();
 
