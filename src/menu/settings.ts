@@ -80,10 +80,27 @@ export class settingsMenu {
         settingContainer.appendChild(label);
         settingContainer.appendChild(input);
         this.settingsContainer.appendChild(settingContainer); 
-        input.addEventListener('input', () => {
-            this.settings.change(key, input.value)
-            console.log(`${key}: ${(this.settings as any)[key]}`) 
-        });
+        
+        const valueType = typeof value;
+        switch (valueType) {
+            case 'number':
+                input.type="number";
+                input.addEventListener('input', () => {
+                    this.settings.change(key, value);
+                    // console.log(`${key}: ${(this.settings as any)[key]}`) 
+                });
+                break;
+            case 'string':
+                input.readOnly = true;
+                input.addEventListener('keydown', (event) => {
+                    event.preventDefault();
+                    const keyCode = event.code;
+                    input.value = keyCode;
+                    this.settings.change(key, event.code);
+                  });
+                  break;
+        }
+        
     }
 
 
