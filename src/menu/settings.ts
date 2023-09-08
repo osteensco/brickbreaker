@@ -80,6 +80,10 @@ export class settingsMenu {
         settingContainer.appendChild(label);
         settingContainer.appendChild(input);
         this.settingsContainer.appendChild(settingContainer); 
+        input.addEventListener('input', () => {
+            this.settings.change(key, input.value)
+            console.log(`${key}: ${(this.settings as any)[key]}`) 
+        });
     }
 
 

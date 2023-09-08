@@ -5,6 +5,8 @@
 
 
 export let defaultSettings = {
+    // TODO
+    // read settings from database
     brickBaseHealth: 1,
     ballSpeed: 1,
     paddleSpeed: 1,
@@ -36,13 +38,23 @@ export class Settings {
         this.map = this.toDictionary();
     }
 
-    public change(property: number | string, newValue: number | string) {
-        if (typeof property == typeof newValue) {
-            property = newValue;
-        } else {
-            console.log(`${typeof property} != ${typeof newValue}`);
-            // handle type errors    
+    public change(this: Settings, property: number | string, newValue: number | string) {
+        
+        const property_type = typeof property;
+        
+        switch (property_type) {
+            case 'number':
+                (this as any)[property] = Number(newValue);
+                (defaultSettings as any)[property] = Number(newValue);
+                break;
+            case 'string':
+                (this as any)[property] = String(newValue);
+                (defaultSettings as any)[property] = String(newValue);
+                break;
+            default:
+                console.error(`${property_type} not handled in switch statement`)
         }
+            
     }
 
     public toDictionary(): { [key: string]: number | string } {
