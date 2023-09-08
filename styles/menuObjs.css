@@ -94,25 +94,39 @@
 
 .setting-row {
     display: flex;
-    justify-content: center;
-    align-items: start;
+    flex: 1;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
     padding: 1%;
+    overflow: hidden;
 }
 
 
 
 .setting-label {
     color: #fdfdfd;
-    margin: 5%;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    margin-right: 5vw;
+    flex: 1;
+    align-self: left;
+    text-align: left;
 }
 
 
 
 .setting-input {
-    align-self: flex-end;
     color: #fdfdfd;
     background-color: #2d2d2d;
-    margin: 5%;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    margin-left: 5vw;
+    flex: 1;
+    align-self: right;
+    text-align: left;
+    width: 100%;
+    /* min-width: 10vw; */
 }
 
 
