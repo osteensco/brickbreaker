@@ -104,7 +104,13 @@ export function startMessageTimer(game: any) {
 
 
 
-
+export function drawBall(x: number, y: number, radius: number, ctx: CanvasRenderingContext2D): void {
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, Math.PI * 2);
+    ctx.fillStyle = 'red';
+    ctx.fill();
+    ctx.closePath();
+}
 
 
 

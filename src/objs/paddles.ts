@@ -2,7 +2,7 @@
 
 // renderer process
 
-import { Settings } from "./settings";
+import { drawBall } from "../utils/helpers";
 
 
 
@@ -36,7 +36,7 @@ export class Paddle {
         this.height = this.setHeight();
         this.baseSpeed = game.settings.paddleSpeed;
         this.speed = this.setSpeed(this.baseSpeed);
-        this.lives = game.settings.lives;
+        this.lives = game.settings.extraLives;
         
         this.setMovementListeners();
 
@@ -46,6 +46,7 @@ export class Paddle {
   
     public draw(): void {
         
+        this.displayLives();
         this.move();
 
         this._ctx.fillStyle = "#0095DD";
@@ -125,6 +126,21 @@ export class Paddle {
         }); 
           
     }
+
+    public displayLives(): void {
+        const padding = 10; 
+        const textX = padding*3 + this._ctx.measureText('Level: ___').width;
+        const textY = this._canvasHeight - padding;
+        const ballRadius = 10;
+        const ballY = textY-padding-ballRadius;
+    
+        for (let i = 0; i < this.lives; i++) {
+            const ballX = textX + i * (2 * (ballRadius + padding));
+            drawBall(ballX, ballY, ballRadius, this._ctx);
+        }
+        
+    }
+    
 
 
 }

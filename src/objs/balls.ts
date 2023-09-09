@@ -1,7 +1,7 @@
 import { Brick } from './bricks';
 import { Paddle } from './paddles';
 import { randomNumberBetween } from '../utils/helpers';
-
+import { drawBall } from '../utils/helpers';
 
 
 // renderer process
@@ -46,11 +46,7 @@ export class Ball {
         
         this.move();
         
-        this._ctx.beginPath();
-        this._ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        this._ctx.fillStyle = 'red';
-        this._ctx.fill();
-        this._ctx.closePath();
+        drawBall(this.x, this.y, this.radius, this._ctx);
         
 		
 	}
