@@ -2,6 +2,7 @@ import { Brick } from './bricks';
 import { Paddle } from './paddles';
 import { randomNumberBetween } from '../utils/helpers';
 import { drawBall } from '../utils/helpers';
+import { Settings } from './settings';
 
 
 // renderer process
@@ -22,6 +23,7 @@ export class Ball {
 	public radius: number;
 	public despawn: boolean;
     public stuck: boolean;
+    private readonly settings: Settings;
 
 	constructor(player: Paddle, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game: any) {
         this.keys = {};
@@ -37,6 +39,7 @@ export class Ball {
         this.dy = -.5 * this.vel; 
 		this.despawn = false;
         this.stuck = true;
+        this.settings = game.settings
         
         this.setMovementListeners()
 	}
@@ -80,11 +83,11 @@ export class Ball {
         if (!this.stuck) {
             this.x += this.dx;
 		    this.y += this.dy;
-        } else if (this.keys['ArrowLeft']) {
+        } else if (this.keys[this.settings.paddleLeftControl]) {
             this.moveLeft()
-        } else if (this.keys['ArrowRight']) {
+        } else if (this.keys[this.settings.paddleRightControl]) {
             this.moveRight()
-        } else if (this.keys['Space']) {
+        } else if (this.keys[this.settings.paddleUsePowerControl]) {
             this.stuck = false;
         }
 

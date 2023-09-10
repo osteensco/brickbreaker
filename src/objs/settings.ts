@@ -13,7 +13,7 @@ export let defaultSettings = {
     extraLives: 3,
     paddleLeftControl: 'ArrowLeft',
     paddleRightControl: 'ArrowRight',
-    paddleUsePowerControl: ''
+    paddleUsePowerControl: 'Space'
 }
 
 export class Settings {
@@ -41,8 +41,6 @@ export class Settings {
     public change(this: Settings, property: number | string, newValue: number | string) {
         
         const property_type = typeof (this as any)[property];
-    
-        console.log(`property: ${property_type}, newValue: ${typeof newValue}`);
 
         switch (property_type) {
             case 'number':
@@ -55,7 +53,7 @@ export class Settings {
                 (defaultSettings as any)[property] = String(newValue);
                 break;
             default:
-                console.error(`${property_type} not handled in switch statement`)
+                console.error(`${property} is of type ${property_type} not number or string`)
         }
             
     }
