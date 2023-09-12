@@ -32,7 +32,11 @@ const config: Configuration = {
     },
   },
   mode: 'development',
-  devtool: 'cheap-module-source-map'
+  devtool: 'cheap-module-source-map',
+  node: {
+    __dirname: false, 
+    __filename: false
+  }
 };
 
 export default config;

@@ -9,6 +9,15 @@ import { createWindow } from "./utils/window";
 
 
 
+const sqlite = require('sqlite3').verbose();
+
+const db = new sqlite.Database('mydatabase.db', (err: Error) => {
+  if (err) {
+    console.error('Error opening database:', err.message);
+  } else {
+    console.log('Connected to the database.');
+  }
+});
 
 
 const isDev = process.env.NODE_ENV !== 'production';
@@ -46,11 +55,33 @@ app.on("ready", () => {
     });
 
 
-
-
-
-
-
 });
+
+
+
+app.on("window-all-closed", () => {
+    db.close((err: Error) => {
+        if (err) {
+          console.error('Error closing database:', err.message);
+        } else {
+          console.log('Database connection closed.');
+        }
+      });
+});
+
+
+
+app.on("will-quit", () => {
+    db.close((err: Error) => {
+        if (err) {
+          console.error('Error closing database:', err.message);
+        } else {
+          console.log('Database connection closed.');
+        }
+      });
+});
+
+
+
 
 
