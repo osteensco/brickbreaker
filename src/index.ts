@@ -15,7 +15,7 @@ const db = new sqlite.Database('mydatabase.db', (err: Error) => {
   if (err) {
     console.error('Error opening database:', err.message);
   } else {
-    console.log('Connected to the database.');
+    console.log('Connected to the database');
   }
 });
 
@@ -60,13 +60,9 @@ app.on("ready", () => {
 
 
 app.on("window-all-closed", () => {
-    db.close((err: Error) => {
-        if (err) {
-          console.error('Error closing database:', err.message);
-        } else {
-          console.log('Database connection closed.');
-        }
-      });
+    console.log("window-all-closed")
+    app.quit();
+    return
 });
 
 
@@ -76,9 +72,11 @@ app.on("will-quit", () => {
         if (err) {
           console.error('Error closing database:', err.message);
         } else {
-          console.log('Database connection closed.');
+          console.log('Database connection closed');
         }
       });
+      console.log("will-quit");
+    return
 });
 
 

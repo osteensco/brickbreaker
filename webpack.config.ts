@@ -33,9 +33,8 @@ const config: Configuration = {
   },
   mode: 'development',
   devtool: 'cheap-module-source-map',
-  node: {
-    __dirname: false, 
-    __filename: false
+  externals: {
+    sqlite3: 'commonjs sqlite3',
   }
 };
 
