@@ -1,5 +1,6 @@
 import { app, ipcMain } from "electron";
 import { createWindow } from "./utils/window";
+import { createDefaultSettingsRecord } from "./objs/settings";
 
 
 
@@ -11,13 +12,15 @@ import { createWindow } from "./utils/window";
 
 const sqlite = require('sqlite3').verbose();
 
-const db = new sqlite.Database('mydatabase.db', (err: Error) => {
+export const db = new sqlite.Database('mydatabase.db', (err: Error) => {
   if (err) {
     console.error('Error opening database:', err.message);
   } else {
     console.log('Connected to the database');
   }
 });
+
+createDefaultSettingsRecord(db);
 
 
 const isDev = process.env.NODE_ENV !== 'production';
@@ -52,6 +55,26 @@ app.on("ready", () => {
 
     ipcMain.on("nav-settings", () => {
         mainWindow.webContents.send("settings-load");
+    });
+
+    ipcMain.on("update-setting", (event, query, params, errorHandle) => {
+        db.all('SELECT * FROM settings', (err: Error, rows: any) => {
+            if (err) {
+                console.error('Error querying table:', err.message);
+            } else {
+                console.log('Table content:');
+                console.log(rows);
+            }
+          });
+        db.run(query, params, errorHandle);
+        db.all('SELECT * FROM settings', (err: Error, rows: any) => {
+            if (err) {
+                console.error('Error querying table:', err.message);
+            } else {
+                console.log('Table content:');
+                console.log(rows);
+            }
+          });
     });
 
 

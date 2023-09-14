@@ -108,8 +108,21 @@ export class settingsMenu {
     private handleSettingChange(key: string, newValue: string): void {
         
         this.settings.change(key, newValue);
-        // TODO:
-        //  Save to database
+
+        const query = `UPDATE settings SET ${key} = ? WHERE dfault = 0`;
+        const params = [newValue];
+        const errorHandle = (err: Error) => {
+            if (err) {
+              console.error('Error updating setting:', err.message);
+            } else {
+              console.log(`${key} setting updated successfully.`);
+            }
+          };
+
+        ipcRenderer.send('update-setting', query, params, errorHandle)
+
+
+        
     }
 
 
