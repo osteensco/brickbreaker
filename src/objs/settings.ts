@@ -134,6 +134,8 @@ export async function setCurrentSettings(db: any) {
                 insertSettings(db, 0);
               } else {
                 console.log('Current settings record already exists.');
+                //TODO
+                // read in current settings and apply values to settings object
               }
               resolve();
             }
