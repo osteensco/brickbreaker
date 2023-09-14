@@ -12,7 +12,7 @@ import { createDefaultSettingsRecord } from "./objs/settings";
 
 const sqlite = require('sqlite3').verbose();
 
-export const db = new sqlite.Database('mydatabase.db', (err: Error) => {
+export const db = new sqlite.Database('brickbreaker.db', (err: Error) => {
   if (err) {
     console.error('Error opening database:', err.message);
   } else {
