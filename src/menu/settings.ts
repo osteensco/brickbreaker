@@ -14,6 +14,7 @@ export class settingsMenu {
     private selectorString: string;
     private title: HTMLElement;
     private mainMenuButton: HTMLElement;
+    private applyDefaultSettings: HTMLElement;
     private settings: Settings;
 
 
@@ -23,8 +24,10 @@ export class settingsMenu {
         this.settingsContainer = createElement('div', 'settings-container', undefined, this.selectorString);
         this.title = this.createTitle();
         this.mainMenuButton = this.createButton('nav-main', 'Main Menu', this.navMain);
+        this.applyDefaultSettings = this.createButton('apply-default-settings', 'Set to Default', this.applyDefault);
         this.screenContainer.appendChild(this.title);
         this.screenContainer.appendChild(this.mainMenuButton);
+        this.screenContainer.appendChild(this.applyDefaultSettings);
         this.settings = settings;
         this.createAllSettingInputs();
 
@@ -87,7 +90,6 @@ export class settingsMenu {
                 input.type="number";
                 input.addEventListener('input', () => {
                     this.settings.change(key, value);
-                    // console.log(`${key}: ${(this.settings as any)[key]}`) 
                 });
                 break;
             case 'string':
@@ -115,6 +117,10 @@ export class settingsMenu {
 
     private navMain(): void {
         ipcRenderer.send("load-menu")
+    }
+
+    private applyDefault(): void {
+        ipcRenderer.send("apply-default-settings")
     }
 
 

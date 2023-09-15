@@ -75,6 +75,10 @@ app.on("ready", () => {
 
     });
 
+    ipcMain.on("apply-default-settings", () => {
+        mainWindow.webContents.send("apply-default-settings");
+    });
+
 
 
 

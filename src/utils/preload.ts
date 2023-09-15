@@ -9,7 +9,7 @@ import { initGameLoop } from "../game/gameLoop";
 import { createCanvas, getCanvasContext, updateSize } from "./helpers";
 import { lvl_1, lvl_2, lvl_3 } from "../game/levels";
 import { Score } from "../objs/score";
-import { Settings, SettingsRow } from "../objs/settings";
+import { defaultSettings, Settings, SettingsRow } from "../objs/settings";
 
 
 
@@ -121,6 +121,12 @@ const listeners = {
     onCurrentSettingsLoad: () => {
         ipcRenderer.on('current-settings', (_event, settings) => {
             appSettings = settings;
+        });
+    },
+    onApplyDefaultSettings: () => {
+        ipcRenderer.on('apply-default-settings', (_event) => {
+            appSettings = defaultSettings;
+            menu.loadSettings();
         });
     },
 };
