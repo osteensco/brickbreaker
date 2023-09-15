@@ -1,6 +1,6 @@
-import { app, ipcMain } from "electron";
+import { app, ipcMain} from "electron";
 import { createWindow } from "./utils/window";
-import { createDefaultSettingsRecord } from "./objs/settings";
+import { createDefaultSettingsRecord, defaultSettings, getSettingsRow } from "./objs/settings";
 
 
 
@@ -20,8 +20,7 @@ export const db = new sqlite.Database('brickbreaker.db', (err: Error) => {
   }
 });
 
-createDefaultSettingsRecord(db);
-
+createDefaultSettingsRecord(db, defaultSettings);
 
 const isDev = process.env.NODE_ENV !== 'production';
 
@@ -57,25 +56,26 @@ app.on("ready", () => {
         mainWindow.webContents.send("settings-load");
     });
 
-    ipcMain.on("update-setting", (event, query, params, errorHandle) => {
-        db.all('SELECT * FROM settings', (err: Error, rows: any) => {
+    ipcMain.on("update-setting", async (event, property, newValue) => {
+
+        const query = `UPDATE settings SET ${property} = ? WHERE dfault = 0`;
+        const params = [newValue];
+        const errorHandle = (err: Error) => {
             if (err) {
-                console.error('Error querying table:', err.message);
+                console.log(query, params);
+                console.error('Error updating setting:', err.message);
             } else {
-                console.log('Table content:');
-                console.log(rows);
+                console.log(`${property} setting updated successfully.`);
             }
-          });
-        db.run(query, params, errorHandle);
-        db.all('SELECT * FROM settings', (err: Error, rows: any) => {
-            if (err) {
-                console.error('Error querying table:', err.message);
-            } else {
-                console.log('Table content:');
-                console.log(rows);
-            }
-          });
+          };
+
+        await db.run(query, params, errorHandle);
+        const appSettings = await getSettingsRow(db, 0);
+        mainWindow.webContents.send('current-settings', appSettings);
+
     });
+
+
 
 
 });

@@ -1,10 +1,28 @@
+import { ipcMain, ipcRenderer } from "electron";
+
+
+
+// renderer process
 
 
 
 
 
+export interface SettingsRow {
+    dfault: number;
+    brickBaseHealth: number;
+    ballSpeed: number;
+    paddleSpeed: number;
+    extraLives: number;
+    paddleLeftControl: string;
+    paddleRightControl: string;
+    paddleUsePowerControl: string;
+}
 
-export let defaultSettings = {
+
+
+export const defaultSettings: SettingsRow =  {
+    dfault: 1,
     brickBaseHealth: 1,
     ballSpeed: 1,
     paddleSpeed: 1,
@@ -14,18 +32,9 @@ export let defaultSettings = {
     paddleUsePowerControl: 'Space'
 }
 
-interface SettingsRow {
-        default: number;
-        brickBaseHealth: number;
-        ballSpeed: number;
-        paddleSpeed: number;
-        extraLives: number;
-        paddleLeftControl: string;
-        paddleRightControl: string;
-        paddleUsePowerControl: string;
-    }
 
-async function insertSettings(db: any, dfault: number) {
+
+async function insertSettings(db: any, dfault: number, defaultSettings: SettingsRow) {
     return new Promise<void>((resolve, reject) => {
         const insertstatement = db.prepare(
             `
@@ -57,7 +66,7 @@ async function insertSettings(db: any, dfault: number) {
                     console.error('Error inserting settings:', err.message);
                     reject(err);
                 } else {
-                    console.log('Settings inserted successfully.');
+                    console.log('Default settings inserted successfully');
                     resolve();
                 }
             }
@@ -90,13 +99,15 @@ export async function createSettingsTable(db: any) {
                     console.error('Error creating settings table:', err.message);
                     reject(err);
                 } else {
-                    console.log('settings table successfully or already exists.');
+                    console.log('Settings table initialized');
                     resolve();
                 }
             }
         );
     });
 }
+
+
 
 export async function clearDefaultSettings(db: any) {
     return new Promise<void>((resolve, reject) => {
@@ -109,7 +120,7 @@ export async function clearDefaultSettings(db: any) {
                     console.error('Error deleting default record:', err.message);
                     reject(err);
                 } else {
-                    console.log('Default record deleted successfully.');
+                    console.log('Default settings cleared successfully');
                     resolve();
                 }
             }
@@ -119,35 +130,72 @@ export async function clearDefaultSettings(db: any) {
 }
 
 
+
 export async function setDefualtSettings(db: any) {
-    await insertSettings(db, 1);
+    await insertSettings(db, 1, defaultSettings);
 }
 
-export async function setCurrentSettings(db: any) {
-    return new Promise<void>((resolve, reject) => {
-        db.get('SELECT * FROM settings WHERE dfault = 0', (err: Error, row: SettingsRow) => {
-            if (err) {
-              console.error('Error checking for current settings record:', err.message);
-              reject(err);
+
+
+export async function setCurrentSettings(db: any, defaultSettings: SettingsRow) {
+    return new Promise<void>(async (resolve, reject) => {
+        let appSettings: SettingsRow;
+        try {
+            const row = await getSettingsRow(db, 0);
+            
+            if (!row) {
+                // If the record doesn't exist, insert it
+                await insertSettings(db, 0, defaultSettings);
+                console.log('Default settings applied to current settings')
             } else {
-              if (!row) {
-                insertSettings(db, 0);
-              } else {
-                console.log('Current settings record already exists.');
-                //TODO
-                // read in current settings and apply values to settings object
-              }
-              resolve();
+                console.log('Current settings already exists, sending to renderer');
+                appSettings = {
+                    dfault: row.dfault,
+                    brickBaseHealth: row.brickBaseHealth,
+                    ballSpeed: row.ballSpeed,
+                    paddleSpeed: row.paddleSpeed,
+                    extraLives: row.extraLives,
+                    paddleLeftControl: row.paddleLeftControl,
+                    paddleRightControl: row.paddleRightControl,
+                    paddleUsePowerControl: row.paddleUsePowerControl
+                }
+
             }
-          });
+            
+            ipcMain.on('get-current-settings', async (event) => {
+                event.sender.send('current-settings', appSettings);
+            });
+    
+            resolve();
+        } catch (err) {
+                console.error('Error setting current settings:', (err as Error).message);
+                reject(err);
+        }
     });
 }
+  
+export function getSettingsRow(db: any, dfault: number): Promise<SettingsRow | null> {
+    return new Promise<SettingsRow | null>((resolve, reject) => {
+        db.get('SELECT * FROM settings WHERE dfault = ?', [dfault], (err: Error, row: SettingsRow) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(row || null);
+            }
+        });
+    });
+}
+  
+  
+  
 
-export async function createDefaultSettingsRecord(db: any) {
+
+
+export async function createDefaultSettingsRecord(db: any, defaultSettings: SettingsRow) {
     await createSettingsTable(db);
     await clearDefaultSettings(db);
     await setDefualtSettings(db);
-    await setCurrentSettings(db);
+    await setCurrentSettings(db, defaultSettings);
 }
 
 
@@ -164,14 +212,14 @@ export class Settings {
 
 
 
-    constructor(settingsMap: {[key: string]: number | string}) {
-        this.brickBaseHealth = settingsMap['brickBaseHealth'] as number;
-        this.ballSpeed = settingsMap['ballSpeed'] as number;
-        this.paddleSpeed = settingsMap['paddleSpeed'] as number;
-        this.extraLives = settingsMap['extraLives'] as number;
-        this.paddleLeftControl = settingsMap['paddleLeftControl'] as string;
-        this.paddleRightControl = settingsMap['paddleRightControl'] as string;
-        this.paddleUsePowerControl = settingsMap['paddleUsePowerControl'] as string;
+    constructor(settingsMap: SettingsRow) {
+        this.brickBaseHealth = settingsMap.brickBaseHealth;
+        this.ballSpeed = settingsMap.ballSpeed;
+        this.paddleSpeed = settingsMap.paddleSpeed;
+        this.extraLives = settingsMap.extraLives;
+        this.paddleLeftControl = settingsMap.paddleLeftControl;
+        this.paddleRightControl = settingsMap.paddleRightControl;
+        this.paddleUsePowerControl = settingsMap.paddleUsePowerControl;
         this.map = this.toDictionary();
 
     }
@@ -193,7 +241,10 @@ export class Settings {
             default:
                 console.error(`${property} is of type ${property_type} not number or string`)
         }
-            
+
+        ipcRenderer.send('update-setting', property, newValue)
+        
+
     }
 
     public toDictionary(): { [key: string]: number | string } {

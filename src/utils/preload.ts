@@ -9,8 +9,7 @@ import { initGameLoop } from "../game/gameLoop";
 import { createCanvas, getCanvasContext, updateSize } from "./helpers";
 import { lvl_1, lvl_2, lvl_3 } from "../game/levels";
 import { Score } from "../objs/score";
-import { Settings } from "../objs/settings";
-import { defaultSettings } from "../objs/settings";
+import { Settings, SettingsRow } from "../objs/settings";
 
 
 
@@ -25,6 +24,8 @@ let scoresView: scoresMenu
 let settingsView: settingsMenu
 let gameObjects: any
 let settings: Settings
+let appSettings: SettingsRow;
+
 
 
 
@@ -41,7 +42,7 @@ const menu = {
     },
 
     loadSettings: () => {
-        settings = new Settings(defaultSettings);
+        settings = new Settings(appSettings);
         settingsView = new settingsMenu(settings);
     },
 
@@ -51,7 +52,7 @@ const menu = {
 const game = {
 
     init: () => {
-        settings = new Settings(defaultSettings)
+        settings = new Settings(appSettings)
 
         gameObjects = {
             settings: settings,
@@ -117,6 +118,11 @@ const listeners = {
     onSettingsNav: (callback: () => void) => {
         ipcRenderer.on("settings-load", (_event, ) => callback());
     },
+    onCurrentSettingsLoad: () => {
+        ipcRenderer.on('current-settings', (_event, settings) => {
+            appSettings = settings;
+        });
+    },
 };
 
 
@@ -124,6 +130,7 @@ const listeners = {
 const rendererSend = {
     appLoaded: () => {
         ipcRenderer.send("load-menu");
+        ipcRenderer.send('get-current-settings');
     }
 }
 

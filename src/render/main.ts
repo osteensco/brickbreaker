@@ -39,6 +39,8 @@ APP.listeners.onSettingsNav(() => {
 	APP.menu.loadSettings();
 
 });
+// @ts-expect-error
+APP.listeners.onCurrentSettingsLoad();
 
 
 
