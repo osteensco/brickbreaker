@@ -69,6 +69,15 @@
 
 
 
+#apply-default-settings {
+    --colorchnge: blue;
+    position: absolute;
+    top: 95%;
+    left: 90%;
+}
+
+
+
 .settings-menu {
     display: flex;
     justify-content: center;
@@ -88,6 +97,9 @@
     padding: 10%;
     margin: 0 auto; 
     overflow: hidden;
+    animation-name: border-color-cycle;
+    animation-duration: 40s;
+    animation-iteration-count: infinite;
 }
 
 

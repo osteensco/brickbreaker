@@ -124,8 +124,8 @@ const listeners = {
         });
     },
     onApplyDefaultSettings: () => {
-        ipcRenderer.on('apply-default-settings', (_event) => {
-            appSettings = defaultSettings;
+        ipcRenderer.on('apply-default-settings', (_event, settings) => {
+            appSettings = settings;
             menu.loadSettings();
         });
     },

@@ -34,7 +34,7 @@ export const defaultSettings: SettingsRow =  {
 
 
 
-async function insertSettings(db: any, dfault: number, defaultSettings: SettingsRow) {
+export async function insertSettings(db: any, dfault: number, defaultSettings: SettingsRow) {
     return new Promise<void>((resolve, reject) => {
         const insertstatement = db.prepare(
             `
@@ -66,7 +66,15 @@ async function insertSettings(db: any, dfault: number, defaultSettings: Settings
                     console.error('Error inserting settings:', err.message);
                     reject(err);
                 } else {
-                    console.log('Default settings inserted successfully');
+                    let settings_type: string;
+                    switch (dfault) {
+                        case 0: 
+                            settings_type = 'Current'; 
+                        case 1: 
+                            settings_type = 'Default'; 
+                        console.log(`${settings_type} settings inserted successfully`);
+                        console.log(dfault)
+                    }
                     resolve();
                 }
             }
@@ -109,18 +117,26 @@ export async function createSettingsTable(db: any) {
 
 
 
-export async function clearDefaultSettings(db: any) {
+export async function clearSettingsRow(db: any, dfault: number) {
     return new Promise<void>((resolve, reject) => {
         db.run(
             `
-            DELETE FROM settings WHERE dfault = 1
+            DELETE FROM settings WHERE dfault = ?
             `, 
+            [dfault],
             (err: Error) => {
                 if (err) {
                     console.error('Error deleting default record:', err.message);
                     reject(err);
                 } else {
-                    console.log('Default settings cleared successfully');
+                    let settings_type: string;
+                    switch (dfault) {
+                        case 0: 
+                            settings_type = 'Current'; 
+                        case 1: 
+                            settings_type = 'Default'; 
+                        console.log(`${settings_type} settings cleared successfully`);
+                    }
                     resolve();
                 }
             }
@@ -193,7 +209,7 @@ export function getSettingsRow(db: any, dfault: number): Promise<SettingsRow | n
 
 export async function createDefaultSettingsRecord(db: any, defaultSettings: SettingsRow) {
     await createSettingsTable(db);
-    await clearDefaultSettings(db);
+    await clearSettingsRow(db, 1);
     await setDefualtSettings(db);
     await setCurrentSettings(db, defaultSettings);
 }

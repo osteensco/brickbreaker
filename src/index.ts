@@ -1,6 +1,6 @@
 import { app, ipcMain} from "electron";
 import { createWindow } from "./utils/window";
-import { createDefaultSettingsRecord, defaultSettings, getSettingsRow } from "./objs/settings";
+import { clearSettingsRow, createDefaultSettingsRecord, defaultSettings, getSettingsRow, insertSettings } from "./objs/settings";
 
 
 
@@ -65,7 +65,7 @@ app.on("ready", () => {
                 console.log(query, params);
                 console.error('Error updating setting:', err.message);
             } else {
-                console.log(`${property} setting updated successfully.`);
+                console.log(`${property} setting updated successfully`);
             }
           };
 
@@ -75,8 +75,12 @@ app.on("ready", () => {
 
     });
 
-    ipcMain.on("apply-default-settings", () => {
-        mainWindow.webContents.send("apply-default-settings");
+    ipcMain.on("apply-default-settings", async () => {
+        await clearSettingsRow(db, 0);
+        await insertSettings(db, 0, defaultSettings);
+        const appSettings = await getSettingsRow(db, 0);
+        mainWindow.webContents.send("apply-default-settings", appSettings);
+        // mainWindow.webContents.send("settings-load");
     });
 
 
