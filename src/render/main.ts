@@ -46,5 +46,6 @@ APP.listeners.onCurrentSettingsLoad();
 // @ts-expect-error
 APP.listeners.onApplyDefaultSettings();
 
-
+// @ts-expect-error
+APP.listeners.onGetHighScores();
 

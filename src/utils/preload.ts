@@ -3,7 +3,7 @@
 // exposing node processes to the internet
 import { ipcRenderer, contextBridge } from "electron";
 import { mainMenu } from "../menu/mainMenu";
-import { scoresMenu } from "../menu/scores";
+import { highscores, scoresMenu } from "../menu/scores";
 import { settingsMenu } from "../menu/settings";
 import { initGameLoop } from "../game/gameLoop";
 import { createCanvas, getCanvasContext, updateSize } from "./helpers";
@@ -25,7 +25,7 @@ let settingsView: settingsMenu
 let gameObjects: any
 let settings: Settings
 let appSettings: SettingsRow;
-
+let highScores: Array<highscores>;
 
 
 
@@ -38,7 +38,7 @@ const menu = {
     },
 
     loadScores: () => {
-        scoresView = new scoresMenu();
+        scoresView = new scoresMenu(highScores);
     },
 
     loadSettings: () => {
@@ -119,16 +119,23 @@ const listeners = {
         ipcRenderer.on("settings-load", (_event, ) => callback());
     },
     onCurrentSettingsLoad: () => {
-        ipcRenderer.on('current-settings', (_event, settings) => {
+        ipcRenderer.on("current-settings", (_event, settings) => {
             appSettings = settings;
         });
     },
     onApplyDefaultSettings: () => {
-        ipcRenderer.on('apply-default-settings', (_event, settings) => {
+        ipcRenderer.on("apply-default-settings", (_event, settings) => {
             appSettings = settings;
             menu.loadSettings();
         });
     },
+    onGetHighScores: () => {
+        ipcRenderer.on("get-highscores", (_event, scores) => {
+            highScores = scores;
+        });
+    }
+
+
 };
 
 
@@ -136,7 +143,8 @@ const listeners = {
 const rendererSend = {
     appLoaded: () => {
         ipcRenderer.send("load-menu");
-        ipcRenderer.send('get-current-settings');
+        ipcRenderer.send("get-current-settings");
+        ipcRenderer.send("get-highscores");
     }
 }
 

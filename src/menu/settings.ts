@@ -19,9 +19,9 @@ export class settingsMenu {
 
 
     constructor(settings: Settings ) {
-        this.selectorString = '.settings-menu'
-        this.screenContainer = createElement('div', 'settings-menu');
-        this.settingsContainer = createElement('div', 'settings-container', undefined, this.selectorString);
+        this.selectorString = '.menu'
+        this.screenContainer = createElement('div', 'menu');
+        this.settingsContainer = createElement('div', 'container', 'settings-container', this.selectorString);
         this.title = this.createTitle();
         this.mainMenuButton = this.createButton('nav-main', 'Main Menu', this.navMain);
         this.applyDefaultSettings = this.createButton('apply-default-settings', 'Set to Default', this.applyDefault);
@@ -71,7 +71,7 @@ export class settingsMenu {
 
 
     private createSettingInput(key: string, value: number | string): void {
-        const settingContainer = createElement('div', 'setting-row', undefined, '.settings-container');
+        const settingContainer = createElement('div', 'setting-row', undefined, '#settings-container');
         const label = createElement('label', 'setting-label');
         label.innerText = key;
         const input = createElement('input', 'setting-input') as HTMLInputElement;
@@ -125,7 +125,7 @@ export class settingsMenu {
 
 
     private cleanup(): void {
-        cleanup('settings-menu')
+        cleanup('menu')
     }
 
 

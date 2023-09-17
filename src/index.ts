@@ -1,6 +1,8 @@
 import { app, ipcMain} from "electron";
 import { createWindow } from "./utils/window";
 import { clearSettingsRow, createDefaultSettingsRecord, defaultSettings, getSettingsRow, insertSettings } from "./objs/settings";
+import { createHighScoresTable, updateHighScores } from "./objs/score";
+import { getHighScores } from "./menu/scores";
 
 
 
@@ -21,17 +23,18 @@ export const db = new sqlite.Database('brickbreaker.db', (err: Error) => {
 });
 
 createDefaultSettingsRecord(db, defaultSettings);
+createHighScoresTable(db);
+
 
 const isDev = process.env.NODE_ENV !== 'production';
 
 app.on("ready", () => {
+
     const mainWindow = createWindow();
-    
-    
-    
     if (isDev) {
         mainWindow.webContents.openDevTools();
-      }
+    }
+
     
     
     ipcMain.on("load-menu", () => {
@@ -39,11 +42,8 @@ app.on("ready", () => {
     });
 
 
-    
     ipcMain.on("game-start", () => {
-
         mainWindow.webContents.send("game-load");
-
     });
 
 
@@ -75,15 +75,32 @@ app.on("ready", () => {
 
     });
 
+
     ipcMain.on("apply-default-settings", async () => {
+
         await clearSettingsRow(db, 0);
         await insertSettings(db, 0, defaultSettings);
         const appSettings = await getSettingsRow(db, 0);
         mainWindow.webContents.send("apply-default-settings", appSettings);
-        // mainWindow.webContents.send("settings-load");
+
     });
 
 
+    ipcMain.on("update-highscores", async (event, score) => {
+
+        await updateHighScores(db, score);
+        const scores = await getHighScores(db);
+        mainWindow.webContents.send("get-highscores", scores);
+    
+    });
+
+
+    ipcMain.on("get-highscores", async () => {
+
+        const scores = await getHighScores(db);
+        mainWindow.webContents.send("get-highscores", scores);
+        
+    })
 
 
 });

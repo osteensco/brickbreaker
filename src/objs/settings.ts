@@ -178,8 +178,8 @@ export async function setCurrentSettings(db: any, defaultSettings: SettingsRow) 
 
             }
             
-            ipcMain.on('get-current-settings', async (event) => {
-                event.sender.send('current-settings', appSettings);
+            ipcMain.on("get-current-settings", async (event) => {
+                event.sender.send("current-settings", appSettings);
             });
     
             resolve();

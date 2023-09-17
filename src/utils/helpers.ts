@@ -77,13 +77,24 @@ export function updateSize(canvas: HTMLCanvasElement): void {
 
 export function displayGameMessage(message: string, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D): void {
 
-    ctx.clearRect(canvas.width / 3, canvas.height / 3, canvas.width / 3, canvas.height / 3)
     ctx.font = '48px Arial';
     ctx.textAlign = 'center';
     ctx.fillStyle = 'white';
+    // let messageSize = ctx.measureText(message)
+    // ctx.clearRect(canvas.width / 2, canvas.height / 2, messageSize.width, messageSize.fontBoundingBoxAscent)
     ctx.fillText(message, canvas.width / 2, canvas.height / 2);
-    
+
   }
+
+
+
+export function displayGame(game: any, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D): void {
+    // display all game objects on the screen with updated movements/collisions
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (const objName in game.objs) {
+        game.objs[objName].draw();
+    }
+}
 
 
 

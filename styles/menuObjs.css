@@ -1,7 +1,7 @@
 
 
 
-.menu {
+.main-menu {
     
     display: flex;
     margin: 0;
@@ -53,6 +53,19 @@
 }
 
 
+.no-scores {
+    font-family: sans-serif;
+    color: white;
+    background: transparent;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    height: 100%; 
+}
+
+
 
 .button {
     
@@ -78,7 +91,7 @@
 
 
 
-.settings-menu {
+.menu {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -87,7 +100,7 @@
 
 
 
-.settings-container {
+.container {
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -139,6 +152,31 @@
     text-align: left;
     width: 100%;
     /* min-width: 10vw; */
+}
+
+
+
+.scores-list {
+    font-family: sans-serif;
+    font-size: 3vh;
+    color: white;
+    background: transparent;
+    text-align: center;
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    min-width: 20vw;
+
+}
+
+
+
+.scores-item {
+    margin: 10vh;
 }
 
 

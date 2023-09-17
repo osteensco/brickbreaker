@@ -1,9 +1,10 @@
 import { ipcRenderer } from "electron";
 import { Level } from "./levelBuilder";
 import { Brick } from "../objs/bricks";
-import { cleanup, displayGameMessage, startMessageTimer } from "../utils/helpers";
+import { cleanup, displayGame, displayGameMessage, startMessageTimer } from "../utils/helpers";
 import { Ball } from "../objs/balls";
 import { Paddle } from "../objs/paddles";
+import { updateHighScores } from "../objs/score";
 
 
 // renderer process
@@ -59,19 +60,17 @@ function gameLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game
 
     // checks if game should pause to display a message
     if (!game.message.show) {
-        // display all game objects on the screen with updated movements/collisions
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        for (const objName in game.objs) {
-            game.objs[objName].draw();
-        }
-        // when game is over clear canvas, end game loop, and return to main menu
+        displayGame(game, canvas, ctx);
+        // when game is over clear canvas, end game loop, update highscores table, and return to main menu
         if (game.over) {
             cleanup('game-canvas')
+            ipcRenderer.send("update-highscores", parseInt(game.objs.score.score));
             game.run = false;
             ipcRenderer.send("load-menu");
         }
     } else {
-        displayGameMessage(game.message.text, canvas, ctx)
+        displayGame(game, canvas, ctx);
+        displayGameMessage(game.message.text, canvas, ctx);
     }
 
 
