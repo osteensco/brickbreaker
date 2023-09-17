@@ -24,6 +24,7 @@ export class Ball {
 	public despawn: boolean;
     public stuck: boolean;
     private readonly settings: Settings;
+    public game: any;
 
 	constructor(player: Paddle, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, game: any) {
         this.keys = {};
@@ -40,7 +41,7 @@ export class Ball {
 		this.despawn = false;
         this.stuck = true;
         this.settings = game.settings
-        
+        this.game = game;
         this.setMovementListeners()
 	}
         
@@ -83,13 +84,16 @@ export class Ball {
         if (!this.stuck) {
             this.x += this.dx;
 		    this.y += this.dy;
-        } else if (this.keys[this.settings.paddleLeftControl]) {
-            this.moveLeft()
-        } else if (this.keys[this.settings.paddleRightControl]) {
-            this.moveRight()
-        } else if (this.keys[this.settings.paddleUsePowerControl]) {
-            this.stuck = false;
+        } else if (!this.game.message.show) {
+            if (this.keys[this.settings.paddleLeftControl]) {
+                this.moveLeft()
+            } else if (this.keys[this.settings.paddleRightControl]) {
+                this.moveRight()
+            } else if (this.keys[this.settings.paddleUsePowerControl]) {
+                this.stuck = false;
+            }
         }
+        
 
     }
 		

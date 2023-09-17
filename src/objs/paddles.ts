@@ -19,6 +19,7 @@ export class Paddle {
     private baseSpeed: number;
     public speed: number;
     public lives: number;
+    public game: any;
     public moving: boolean;
     public moveLeftKey: string;
     public moveRightKey: string;
@@ -29,7 +30,6 @@ export class Paddle {
         this._ctx = ctx;
         this._canvasWidth = canvas.width;
         this._canvasHeight = canvas.height;
-    
         this.x = this.setPosX();
         this.y = this.setPosY();
         this.width = this.setWidth();
@@ -37,9 +37,8 @@ export class Paddle {
         this.baseSpeed = game.settings.paddleSpeed;
         this.speed = this.setSpeed(this.baseSpeed);
         this.lives = game.settings.extraLives;
-        
+        this.game = game;
         this.setMovementListeners();
-
         this.moveLeftKey = game.settings.paddleLeftControl;
         this.moveRightKey = game.settings.paddleRightControl;
     }
@@ -47,7 +46,9 @@ export class Paddle {
     public draw(): void {
         
         this.displayLives();
-        this.move();
+        if (!this.game.message.show) {
+            this.move();
+        }
 
         this._ctx.fillStyle = "#0095DD";
         this._ctx.fillRect(
