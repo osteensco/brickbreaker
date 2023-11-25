@@ -162,6 +162,7 @@ export async function setCurrentSettings(db: any, defaultSettings: SettingsRow) 
             if (!row) {
                 // If the record doesn't exist, insert it
                 await insertSettings(db, 0, defaultSettings);
+                appSettings = defaultSettings
                 console.log('Default settings applied to current settings')
             } else {
                 console.log('Current settings already exists, sending to renderer');

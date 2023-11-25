@@ -3,7 +3,7 @@ import { createWindow } from "./utils/window";
 import { clearSettingsRow, createDefaultSettingsRecord, defaultSettings, getSettingsRow, insertSettings } from "./objs/settings";
 import { createHighScoresTable, updateHighScores } from "./objs/score";
 import { getHighScores } from "./menu/scores";
-
+import { Database } from "sqlite3";
 
 
 
@@ -11,10 +11,7 @@ import { getHighScores } from "./menu/scores";
 
 
 
-
-const sqlite = require('sqlite3').verbose();
-
-export const db = new sqlite.Database('brickbreaker.db', (err: Error) => {
+export const db = new Database('brickbreaker.db', (err: Error| null) => {
   if (err) {
     console.error('Error opening database:', err.message);
   } else {
@@ -116,7 +113,7 @@ app.on("window-all-closed", () => {
 
 
 app.on("will-quit", () => {
-    db.close((err: Error) => {
+    db.close((err: Error | null) => {
         if (err) {
           console.error('Error closing database:', err.message);
         } else {
